@@ -115,9 +115,9 @@
   <div class="onboarding-wrap">
     <div class="hana-avatar">🔑</div>
     <h2>One last thing!</h2>
-    <p class="ob-subtitle">To power Hana-sensei's AI brain, paste your <strong>Anthropic API key</strong> below.<br><small>It's stored only in your browser — never sent anywhere else.</small></p>
-    <input type="password" id="input-apikey" class="text-input" placeholder="sk-ant-api03-...">
-    <p class="api-hint">Get your key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+    <p class="ob-subtitle">To power Hana-sensei's AI brain, paste your <strong>Google Gemini API key</strong> below.<br><small>It's stored only in your browser — never sent to any server.</small></p>
+    <input type="password" id="input-apikey" class="text-input" placeholder="AIza...">
+    <p class="api-hint">Get your free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></p>
     <button class="btn-primary" onclick="App.saveApiKey()">I'm ready — let's go! 🌸</button>
   </div>
   <div class="ob-progress"><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot active"></span></div>
@@ -375,6 +375,14 @@
   </div>
 </div>
 
-<script src="app.js"></script>
+<!-- Google Generative AI Web SDK (ESM via CDN) -->
+<script type="importmap">
+{
+  "imports": {
+    "@google/generative-ai": "https://esm.run/@google/generative-ai"
+  }
+}
+</script>
+<script type="module" src="app.js"></script>
 </body>
 </html>
