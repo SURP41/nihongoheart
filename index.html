@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>NihongoHeart — 心</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/@google/generative-ai@0.1.0/dist/index.umd.js"></script>
@@ -10,50 +10,80 @@
 <body>
 
     <div id="screen-splash" class="screen active">
+        <div class="splash-bg"></div>
+        <div class="petals-container" id="petals"></div>
         <div class="splash-content">
-            <h1>🌸</h1>
-            <h2>NihongoHeart</h2>
-            <p>One step today. Fluent someday.</p>
-            <button id="splash-btn" class="btn-primary">Let's Begin</button>
+            <div class="kanji-hero">心</div>
+            <h1 class="app-name">NihongoHeart</h1>
+            <p class="tagline">One step today. Fluent someday.</p>
+            <button id="btn-start" class="btn-primary" style="margin-top: 40px;">Begin Your Journey</button>
         </div>
     </div>
 
     <div id="screen-onboarding-1" class="screen">
-        <h3>What should I call you?</h3>
-        <input type="text" id="input-name" placeholder="Enter your name...">
-        <button id="btn-save-name" class="btn-primary">Next</button>
+        <div class="onboarding-wrap">
+            <div class="hana-avatar">🌸</div>
+            <h2>"Hajimemashite! I am Hana."</h2>
+            <p class="ob-subtitle">I'll be your guide. What is your name?</p>
+            <input type="text" id="input-name" class="text-input" placeholder="Your name...">
+            <button id="btn-save-name" class="btn-primary">Next</button>
+        </div>
     </div>
 
     <div id="screen-home" class="screen">
-        <header>
-            <h2 id="home-greeting">こんにちは!</h2>
-            <p id="home-name">Friend</p>
-        </header>
-        <div class="stats-row">
-            <div class="stat-card">🔥 <span id="streak-count">0</span> Day Streak</div>
-            <div class="stat-card">⭐ <span id="total-xp">0</span> XP</div>
-        </div>
-        <div id="task-list">
+        <header class="home-header">
+            <div class="home-top">
+                <div>
+                    <p class="home-greet">こんにちは,</p>
+                    <h2 class="home-name" id="display-name">User</h2>
+                </div>
+                <div class="xp-badge">
+                    <span id="display-rank">旅人</span>
+                    <span id="display-xp">0 XP</span>
+                </div>
             </div>
-        <div id="unlock-section" style="display:none;">
-            <button onclick="App.useUnlock()" class="btn-unlock">🔓 Unlock Social Media (20m)</button>
+            <div class="streak-bar">
+                <div class="streak-item">🔥 <strong id="display-streak">0</strong> day streak</div>
+            </div>
+        </header>
+
+        <section class="tasks-section">
+            <h3 class="section-title">Today's Path</h3>
+            <div id="task-list" class="task-list">
+                </div>
+        </section>
+
+        <div class="unlock-section" id="unlock-area" style="display:none;">
+            <div class="unlock-card">
+                <span class="unlock-icon">🔓</span>
+                <div>
+                    <strong>Focus Reward</strong>
+                    <p>Social Media Unlocked</p>
+                </div>
+                <button class="btn-unlock">Use</button>
+            </div>
         </div>
+
+        <nav class="bottom-nav">
+            <button class="nav-btn active">🏠<span>Home</span></button>
+            <button class="nav-btn">📚<span>Vocab</span></button>
+            <button class="nav-btn">📈<span>Stats</span></button>
+        </nav>
+
+        <button class="fab-tutor" id="btn-open-tutor">
+            <span>🌸</span>
+            <span class="fab-label">TUTOR</span>
+        </button>
     </div>
 
     <div id="screen-task" class="screen">
-        <h3 id="task-screen-title">Loading Task...</h3>
-        <div id="task-content"></div>
-        <button id="task-done-btn" onclick="App.completeTask()" class="btn-primary">I'm Done!</button>
-    </div>
-
-    <div id="celebration" class="overlay" style="display:none;">
-        <div class="cel-card">
-            <h1 id="cel-emoji">🎉</h1>
-            <h2 id="cel-title">Wonderful!</h2>
-            <p id="cel-msg"></p>
-            <div class="xp-badge">+<span id="cel-xp">0</span> XP</div>
-            <button onclick="App.closeCelebration()" class="btn-primary">Continue</button>
-        </div>
+        <header class="screen-header">
+            <button class="back-btn" onclick="App.goTo('home')">← Back</button>
+            <h2 id="task-title">Lesson</h2>
+        </header>
+        <div class="task-content" id="task-body">
+            </div>
+        <button class="btn-primary task-done-btn" onclick="App.completeTask()">I've Finished</button>
     </div>
 
     <div id="toast" class="toast"></div>
