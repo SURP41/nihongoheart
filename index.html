@@ -3,132 +3,371 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NihongoHeart 心 — One step today. Fluent someday.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>NihongoHeart 心</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<style>
+:root {
+  --sakura:#f2a7b8; --sakura-deep:#d97a95; --ink:#1a1018;
+  --paper:#fdf8f4; --warm-white:#fff9f5; --cream:#f5ede2;
+  --moss:#5a7a5a; --gold:#c4923a; --slate:#4a3f4a; --muted:#8a7a8a;
+  --border:rgba(26,16,24,0.12);
+  --font-serif:'DM Serif Display','Noto Serif JP',serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-jp:'Noto Serif JP',serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+
+/* SCREEN SYSTEM */
+.screen{position:fixed;inset:0;background:var(--paper);display:none;flex-direction:column;overflow:hidden;max-width:480px;margin:0 auto;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s}
+.screen.active{display:flex;opacity:1;transform:translateY(0)}
+@media(min-width:480px){.screen{box-shadow:0 0 80px rgba(0,0,0,.5)}}
+
+/* SPLASH */
+#screen-splash{background:var(--ink);align-items:center;justify-content:center;text-align:center}
+.splash-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,#3a1a2e,var(--ink) 60%);pointer-events:none}
+.splash-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;padding:40px 32px}
+.kanji-hero{font-family:var(--font-jp);font-size:100px;color:var(--sakura);line-height:1;text-shadow:0 0 60px rgba(242,167,184,.5);animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.app-name{font-family:var(--font-serif);font-size:32px;color:#fff}
+.tagline{font-size:14px;color:rgba(255,255,255,.55)}
+.petals-container{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.petal{position:absolute;top:-20px;animation:fallPetal linear infinite;opacity:.7}
+@keyframes fallPetal{0%{transform:translateY(-20px) rotate(0deg);opacity:.8}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* BUTTONS */
+.btn-primary{background:var(--sakura-deep);color:#fff;border:none;padding:16px 32px;border-radius:999px;font-family:var(--font-body);font-size:15px;font-weight:500;cursor:pointer;width:100%;max-width:320px;transition:transform .15s,background .15s;box-shadow:0 4px 20px rgba(217,122,149,.35)}
+.btn-primary:hover{background:#c96a85;transform:translateY(-1px)}
+.btn-primary:active{transform:translateY(0)}
+.btn-secondary{background:transparent;border:1.5px solid var(--sakura-deep);color:var(--sakura-deep);padding:12px 28px;border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;width:100%;max-width:320px}
+.btn-secondary:hover{background:rgba(217,122,149,.08)}
+
+/* ONBOARDING */
+.onboarding-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;gap:20px;text-align:center}
+.hana-avatar{font-size:52px;animation:bob 3s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.onboarding-wrap h2{font-family:var(--font-serif);font-size:26px;color:var(--ink);line-height:1.25}
+.ob-subtitle{font-size:14px;color:var(--muted);line-height:1.6;max-width:300px}
+.ob-subtitle strong{color:var(--ink)}
+.ob-subtitle small{font-size:12px}
+.text-input{width:100%;max-width:320px;border:1.5px solid var(--border);border-radius:20px;padding:14px 18px;font-size:15px;font-family:var(--font-body);background:var(--warm-white);color:var(--ink);outline:none;transition:border-color .2s}
+.text-input:focus{border-color:var(--sakura-deep);box-shadow:0 0 0 3px rgba(217,122,149,.15)}
+.ob-progress{display:flex;justify-content:center;gap:8px;padding:20px}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s}
+.ob-dot.active{background:var(--sakura-deep);transform:scale(1.3)}
+.ob-dot.done{background:var(--moss)}
+.api-hint{font-size:12px;color:var(--muted)}
+.api-hint a{color:var(--sakura-deep)}
+
+/* CHOICE CARDS */
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:320px}
+.choice-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 12px;border:1.5px solid var(--border);border-radius:20px;background:var(--warm-white);font-size:13px;color:var(--slate);cursor:pointer;transition:all .2s}
+.choice-card:hover{border-color:var(--sakura);background:rgba(242,167,184,.08)}
+.choice-card.selected{border-color:var(--sakura-deep);background:rgba(217,122,149,.12);color:var(--sakura-deep);font-weight:500}
+.choice-card .card-emoji{font-size:28px}
+
+/* TIME CARDS */
+.time-options{display:flex;gap:12px;width:100%;max-width:320px}
+.time-card{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:20px 8px;border:1.5px solid var(--border);border-radius:20px;background:var(--warm-white);cursor:pointer;transition:all .2s}
+.time-card:hover{border-color:var(--sakura);background:rgba(242,167,184,.08)}
+.time-card.selected{border-color:var(--sakura-deep);background:rgba(217,122,149,.12)}
+.time-num{font-family:var(--font-serif);font-size:36px;color:var(--ink)}
+.time-unit{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.time-label{font-size:11px;color:var(--slate);margin-top:4px}
+
+/* BLOCKER TAGS */
+.blocker-list{display:flex;flex-wrap:wrap;gap:10px;max-width:320px;justify-content:center}
+.blocker-tag{padding:10px 16px;border:1.5px solid var(--border);border-radius:999px;background:var(--warm-white);font-size:13px;color:var(--slate);cursor:pointer;transition:all .2s}
+.blocker-tag:hover{border-color:var(--sakura)}
+.blocker-tag.selected{border-color:var(--sakura-deep);background:rgba(217,122,149,.12);color:var(--sakura-deep);font-weight:500}
+
+/* CHECK-IN */
+.checkin-wrap{flex:1;padding:32px 24px;overflow-y:auto;display:flex;flex-direction:column;gap:24px}
+.hana-bubble{display:flex;gap:12px;align-items:flex-start;background:var(--warm-white);border-radius:20px;padding:16px;border:1px solid var(--border)}
+.hana-icon{font-size:28px;flex-shrink:0}
+.hana-bubble p{font-size:15px;color:var(--slate);line-height:1.6}
+.mood-label{font-size:14px;font-weight:500;color:var(--ink)}
+.mood-row{display:flex;gap:8px}
+.mood-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border:1.5px solid var(--border);border-radius:20px;background:var(--warm-white);font-size:22px;cursor:pointer;transition:all .2s}
+.mood-btn span{font-size:10px;color:var(--muted)}
+.mood-btn:hover{border-color:var(--sakura);transform:scale(1.04)}
+.mood-btn.selected{border-color:var(--sakura-deep);background:rgba(217,122,149,.1)}
+#commitment-section{display:flex;flex-direction:column;gap:12px}
+
+/* HOME */
+.home-header{background:var(--ink);padding:48px 24px 24px;flex-shrink:0}
+.home-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.home-greet{font-size:13px;color:rgba(255,255,255,.5)}
+.home-name{font-family:var(--font-serif);font-size:28px;color:#fff}
+.xp-badge{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.xp-badge span:first-child{font-family:var(--font-jp);font-size:12px;color:var(--sakura)}
+.xp-badge span:last-child{font-size:11px;color:rgba(255,255,255,.5)}
+.streak-bar{display:flex;gap:16px}
+.streak-item{font-size:13px;color:rgba(255,255,255,.6)}
+.streak-item strong{color:var(--gold)}
+.tasks-section{flex:1;padding:24px 20px;overflow-y:auto}
+.section-title{font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.task-list{display:flex;flex-direction:column;gap:12px}
+.task-placeholder{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.task-card{display:flex;align-items:center;gap:14px;background:var(--warm-white);border:1.5px solid var(--border);border-radius:20px;padding:16px;cursor:pointer;transition:all .2s}
+.task-card:hover{border-color:var(--sakura);transform:translateX(3px)}
+.task-card.completed{opacity:.55;border-color:var(--moss)}
+.task-icon{font-size:28px;flex-shrink:0}
+.task-info{flex:1}
+.task-title{font-size:15px;font-weight:500;color:var(--ink)}
+.task-meta{font-size:12px;color:var(--muted);margin-top:2px}
+.task-xp{font-size:12px;color:var(--gold);font-weight:600}
+.task-check{font-size:20px}
+.unlock-section{padding:0 20px 12px}
+.unlock-card{display:flex;align-items:center;gap:12px;background:rgba(196,146,58,.12);border:1.5px solid var(--gold);border-radius:20px;padding:14px 16px}
+.unlock-icon{font-size:24px}
+.unlock-card strong{font-size:14px;color:var(--ink)}
+.unlock-card p{font-size:12px;color:var(--muted)}
+.btn-unlock{margin-left:auto;background:var(--gold);color:#fff;border:none;padding:8px 16px;border-radius:999px;font-size:13px;cursor:pointer}
+.fab-tutor{position:fixed;right:20px;bottom:80px;background:var(--sakura-deep);color:#fff;border:none;width:56px;height:56px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-shadow:0 4px 20px rgba(217,122,149,.4);z-index:10}
+.fab-label{font-size:9px;font-family:var(--font-body);font-weight:500}
+
+/* BOTTOM NAV */
+.bottom-nav{display:flex;background:var(--warm-white);border-top:1px solid var(--border);padding:8px 4px;flex-shrink:0}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:6px 0;transition:color .2s}
+.nav-btn span{font-size:10px;font-family:var(--font-body)}
+.nav-btn.active,.nav-btn:hover{color:var(--sakura-deep)}
+
+/* SCREEN HEADER */
+.screen-header{display:flex;align-items:center;gap:12px;padding:52px 20px 16px;background:var(--warm-white);border-bottom:1px solid var(--border);flex-shrink:0}
+.screen-header h2{font-family:var(--font-serif);font-size:22px;flex:1}
+.back-btn{background:none;border:none;font-size:14px;color:var(--muted);cursor:pointer;padding:4px 0}
+.counter-badge{background:var(--sakura);color:var(--ink);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px}
+
+/* VOCAB */
+.flashcard-arena{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;perspective:1000px}
+.flashcard{width:100%;max-width:340px;min-height:200px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.23,1,.32,1)}
+.flashcard.flipped{transform:rotateY(180deg)}
+.card-front,.card-back{position:absolute;inset:0;border-radius:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:36px;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 2px 16px rgba(26,16,24,.1)}
+.card-front{background:var(--ink)}
+.card-back{background:var(--warm-white);border:1.5px solid var(--border);transform:rotateY(180deg)}
+.card-kanji{font-family:var(--font-jp);font-size:64px;color:var(--sakura);text-align:center}
+.card-hint{font-size:12px;color:rgba(255,255,255,.4);letter-spacing:1px}
+.card-reading{font-family:var(--font-jp);font-size:20px;color:var(--muted)}
+.card-meaning{font-family:var(--font-serif);font-size:28px;color:var(--ink);text-align:center}
+.card-example{font-size:13px;color:var(--muted);text-align:center;font-style:italic}
+.card-actions{display:flex;gap:12px;padding:0 24px 16px}
+.btn-forgot,.btn-knew{flex:1;padding:14px;border-radius:20px;font-size:14px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
+.btn-forgot{background:var(--cream);color:var(--slate)}
+.btn-knew{background:var(--moss);color:#fff}
+.vocab-xp-bar{padding:12px 24px;background:var(--warm-white);border-top:1px solid var(--border);display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+.xp-label{font-size:12px;color:var(--muted)}
+.xp-progress{height:4px;background:var(--cream);border-radius:4px;overflow:hidden}
+.xp-fill{height:100%;background:var(--gold);border-radius:4px;transition:width .5s ease}
+
+/* TUTOR */
+.tutor-header{display:flex;align-items:center;gap:12px;padding:52px 20px 16px;background:var(--ink);flex-shrink:0}
+.tutor-title{display:flex;align-items:center;gap:10px;flex:1}
+.tutor-title strong{color:#fff;font-size:16px}
+.tutor-title small{color:rgba(255,255,255,.45);font-size:12px;display:block}
+.tutor-avatar{font-size:32px}
+.tutor-header .back-btn{color:rgba(255,255,255,.5)}
+.chat-messages{flex:1;padding:20px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background:var(--paper)}
+.chat-bubble{max-width:80%;display:flex;flex-direction:column;gap:4px}
+.chat-bubble.hana{align-self:flex-start}
+.chat-bubble.user{align-self:flex-end}
+.bubble-text{padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.6;color:var(--ink)}
+.chat-bubble.hana .bubble-text{background:var(--warm-white);border:1px solid var(--border);border-top-left-radius:4px}
+.chat-bubble.user .bubble-text{background:var(--sakura-deep);color:#fff;border-top-right-radius:4px}
+.bubble-text.loading{color:var(--muted);font-style:italic}
+.quick-prompts{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.quick-prompts::-webkit-scrollbar{display:none}
+.qp-btn{flex-shrink:0;background:var(--warm-white);border:1px solid var(--border);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--slate);cursor:pointer;white-space:nowrap}
+.qp-btn:hover{border-color:var(--sakura);color:var(--sakura-deep)}
+.chat-input-row{display:flex;gap:8px;padding:12px 16px;background:var(--warm-white);border-top:1px solid var(--border);flex-shrink:0}
+.chat-input{flex:1;border:1.5px solid var(--border);border-radius:20px;padding:10px 14px;font-size:14px;font-family:var(--font-body);resize:none;outline:none;background:var(--paper);max-height:100px}
+.chat-input:focus{border-color:var(--sakura-deep)}
+.send-btn{background:var(--sakura-deep);color:#fff;border:none;padding:10px 18px;border-radius:20px;font-size:14px;cursor:pointer;white-space:nowrap}
+.send-btn:disabled{background:var(--muted);cursor:not-allowed}
+
+/* PROGRESS */
+.progress-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px}
+.level-card{display:flex;align-items:center;gap:16px;background:var(--ink);border-radius:32px;padding:24px}
+.level-kanji{font-family:var(--font-jp);font-size:44px;color:var(--sakura);flex-shrink:0}
+.level-info{flex:1}
+.level-info strong{font-size:18px;color:#fff;font-family:var(--font-serif)}
+.level-info p{font-size:12px;color:rgba(255,255,255,.5);margin:4px 0 8px}
+.level-bar{height:4px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.level-fill{height:100%;background:var(--sakura);border-radius:4px;transition:width .6s ease}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat-tile{background:var(--warm-white);border:1px solid var(--border);border-radius:20px;padding:20px 16px;display:flex;flex-direction:column;gap:4px;text-align:center}
+.stat-num{font-family:var(--font-serif);font-size:40px;color:var(--ink);line-height:1}
+.stat-label{font-size:12px;color:var(--muted)}
+.achievements-list{display:flex;flex-direction:column;gap:10px}
+.achievement-item{display:flex;align-items:center;gap:12px;background:var(--warm-white);border:1px solid var(--border);border-radius:20px;padding:14px}
+.ach-icon{font-size:28px}
+.ach-text strong{font-size:14px;color:var(--ink)}
+.ach-text small{font-size:12px;color:var(--muted)}
+.week-chart{display:flex;gap:8px;align-items:flex-end;height:80px}
+.week-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.week-bar{width:100%;background:var(--cream);border-radius:4px 4px 0 0;min-height:4px;transition:height .5s ease}
+.week-bar.has-data{background:var(--sakura)}
+.week-day{font-size:10px;color:var(--muted)}
+
+/* TASK SCREEN */
+.task-content{flex:1;padding:20px;overflow-y:auto}
+.task-loading{display:flex;flex-direction:column;align-items:center;gap:16px;padding:60px 20px}
+.hana-spin{font-size:48px;animation:spin 2s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.task-loading p{color:var(--muted);font-size:14px}
+.task-done-btn{margin:16px 20px;width:calc(100% - 40px)}
+.grammar-content{display:flex;flex-direction:column;gap:16px}
+.grammar-block{background:var(--warm-white);border:1px solid var(--border);border-radius:20px;padding:16px}
+.grammar-block h4{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.grammar-block p{font-size:14px;color:var(--slate);line-height:1.7}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 24px;border-radius:999px;font-size:14px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap;max-width:300px;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* CELEBRATION */
+.celebration-overlay{position:fixed;inset:0;background:rgba(26,16,24,.7);display:flex;align-items:center;justify-content:center;z-index:9000;padding:20px;backdrop-filter:blur(4px)}
+.celebration-box{background:var(--paper);border-radius:32px;padding:40px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;max-width:320px;width:100%;animation:popIn .4s cubic-bezier(.23,1,.32,1)}
+@keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.cel-emoji{font-size:64px}
+.celebration-box h2{font-family:var(--font-serif);font-size:28px;color:var(--ink)}
+.celebration-box p{font-size:14px;color:var(--muted)}
+.xp-gained{font-family:var(--font-serif);font-size:32px;color:var(--gold)}
+</style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════
-     SPLASH SCREEN
-═══════════════════════════════════════════ -->
+<!-- SPLASH -->
 <div id="screen-splash" class="screen active">
   <div class="splash-bg"></div>
   <div class="splash-content">
     <div class="kanji-hero">心</div>
     <h1 class="app-name">NihongoHeart</h1>
     <p class="tagline">One step today. Fluent someday.</p>
-    <button class="btn-primary" id="splash-btn" onclick="App.goTo('onboarding-1')">始めましょう — Let's Begin</button>
+    <button class="btn-primary" onclick="goTo('onboarding-1')">始めましょう — Let's Begin</button>
   </div>
   <div class="petals-container" id="petals"></div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     ONBOARDING 1 — Name
-═══════════════════════════════════════════ -->
+<!-- ONBOARDING 1 — Name -->
 <div id="screen-onboarding-1" class="screen">
   <div class="onboarding-wrap">
     <div class="hana-avatar">🌸</div>
     <h2>こんにちは！</h2>
-    <p class="ob-subtitle">I'm Hana-sensei, your personal study companion.<br>What's your name?</p>
-    <input type="text" id="input-name" class="text-input" placeholder="Your first name..." maxlength="30">
-    <button class="btn-primary" id="btn-save-name">Nice to meet you →</button>
+    <p class="ob-subtitle">I'm Hana-sensei, your study companion.<br>What's your name?</p>
+    <input type="text" id="input-name" class="text-input" placeholder="Your first name..." maxlength="30"
+      onkeydown="if(event.key==='Enter') saveName()">
+    <button class="btn-primary" onclick="saveName()">Nice to meet you →</button>
   </div>
-  <div class="ob-progress"><span class="ob-dot active"></span><span class="ob-dot"></span><span class="ob-dot"></span><span class="ob-dot"></span></div>
+  <div class="ob-progress">
+    <span class="ob-dot active"></span><span class="ob-dot"></span>
+    <span class="ob-dot"></span><span class="ob-dot"></span><span class="ob-dot"></span>
+  </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     ONBOARDING 2 — Why
-═══════════════════════════════════════════ -->
+<!-- ONBOARDING 2 — Why -->
 <div id="screen-onboarding-2" class="screen">
   <div class="onboarding-wrap">
     <div class="hana-avatar">✨</div>
     <h2>Why do you want to pass N2?</h2>
-    <p class="ob-subtitle">There's no wrong answer. This helps me understand you.</p>
-    <div class="choice-grid" id="why-choices">
-      <button class="choice-card" data-value="work">🏢<span>Work in Japan</span></button>
-      <button class="choice-card" data-value="anime">🎌<span>Anime &amp; Manga</span></button>
-      <button class="choice-card" data-value="culture">🍵<span>Love Japanese culture</span></button>
-      <button class="choice-card" data-value="personal">⭐<span>Personal challenge</span></button>
+    <p class="ob-subtitle">There's no wrong answer.</p>
+    <div class="choice-grid">
+      <button class="choice-card" onclick="selectWhy(this,'work')"><span class="card-emoji">🏢</span><span>Work in Japan</span></button>
+      <button class="choice-card" onclick="selectWhy(this,'anime')"><span class="card-emoji">🎌</span><span>Anime &amp; Manga</span></button>
+      <button class="choice-card" onclick="selectWhy(this,'culture')"><span class="card-emoji">🍵</span><span>Love Japanese culture</span></button>
+      <button class="choice-card" onclick="selectWhy(this,'personal')"><span class="card-emoji">⭐</span><span>Personal challenge</span></button>
     </div>
-    <button class="btn-primary" id="btn-save-why">Continue →</button>
+    <button class="btn-primary" onclick="saveWhy()">Continue →</button>
   </div>
-  <div class="ob-progress"><span class="ob-dot done"></span><span class="ob-dot active"></span><span class="ob-dot"></span><span class="ob-dot"></span></div>
+  <div class="ob-progress">
+    <span class="ob-dot done"></span><span class="ob-dot active"></span>
+    <span class="ob-dot"></span><span class="ob-dot"></span><span class="ob-dot"></span>
+  </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     ONBOARDING 3 — Daily time
-═══════════════════════════════════════════ -->
+<!-- ONBOARDING 3 — Time -->
 <div id="screen-onboarding-3" class="screen">
   <div class="onboarding-wrap">
     <div class="hana-avatar">⏰</div>
     <h2>How much time can you honestly study each day?</h2>
-    <p class="ob-subtitle">No judgment. 5 minutes is genuinely enough to start. 🌱</p>
+    <p class="ob-subtitle">No judgment. 5 minutes is genuinely enough. 🌱</p>
     <div class="time-options">
-      <button class="time-card" data-minutes="5">
-        <span class="time-num">5</span>
-        <span class="time-unit">min</span>
-        <span class="time-label">Just starting</span>
+      <button class="time-card" id="time-5" onclick="selectTime(5)">
+        <span class="time-num">5</span><span class="time-unit">min</span><span class="time-label">Just starting</span>
       </button>
-      <button class="time-card" data-minutes="15">
-        <span class="time-num">15</span>
-        <span class="time-unit">min</span>
-        <span class="time-label">Building habits</span>
+      <button class="time-card" id="time-15" onclick="selectTime(15)">
+        <span class="time-num">15</span><span class="time-unit">min</span><span class="time-label">Building habits</span>
       </button>
-      <button class="time-card" data-minutes="30">
-        <span class="time-num">30</span>
-        <span class="time-unit">min</span>
-        <span class="time-label">Serious study</span>
+      <button class="time-card" id="time-30" onclick="selectTime(30)">
+        <span class="time-num">30</span><span class="time-unit">min</span><span class="time-label">Serious study</span>
       </button>
     </div>
-    <button class="btn-primary" id="btn-save-time">Continue →</button>
+    <button class="btn-primary" onclick="saveTime()">Continue →</button>
   </div>
-  <div class="ob-progress"><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot active"></span><span class="ob-dot"></span></div>
+  <div class="ob-progress">
+    <span class="ob-dot done"></span><span class="ob-dot done"></span>
+    <span class="ob-dot active"></span><span class="ob-dot"></span><span class="ob-dot"></span>
+  </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     ONBOARDING 4 — Blockers
-═══════════════════════════════════════════ -->
+<!-- ONBOARDING 4 — Blockers -->
 <div id="screen-onboarding-4" class="screen">
   <div class="onboarding-wrap">
     <div class="hana-avatar">🤍</div>
     <h2>What usually gets in the way?</h2>
-    <p class="ob-subtitle">Knowing this helps me support you better. Select all that apply.</p>
-    <div class="blocker-list" id="blocker-choices">
-      <button class="blocker-tag" data-value="phone">📱 Phone distractions</button>
-      <button class="blocker-tag" data-value="energy">😴 Low energy</button>
-      <button class="blocker-tag" data-value="lost">😵 Feeling lost</button>
-      <button class="blocker-tag" data-value="forgetting">🔔 Forgetting</button>
-      <button class="blocker-tag" data-value="embarrassed">😶 Feeling embarrassed</button>
+    <p class="ob-subtitle">Select all that apply.</p>
+    <div class="blocker-list">
+      <button class="blocker-tag" onclick="toggleBlocker(this,'phone')">📱 Phone distractions</button>
+      <button class="blocker-tag" onclick="toggleBlocker(this,'energy')">😴 Low energy</button>
+      <button class="blocker-tag" onclick="toggleBlocker(this,'lost')">😵 Feeling lost</button>
+      <button class="blocker-tag" onclick="toggleBlocker(this,'forgetting')">🔔 Forgetting</button>
+      <button class="blocker-tag" onclick="toggleBlocker(this,'embarrassed')">😶 Feeling embarrassed</button>
     </div>
-    <button class="btn-primary" id="btn-save-blockers">Continue →</button>
+    <button class="btn-primary" onclick="saveBlockers()">Continue →</button>
   </div>
-  <div class="ob-progress"><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot active"></span></div>
+  <div class="ob-progress">
+    <span class="ob-dot done"></span><span class="ob-dot done"></span>
+    <span class="ob-dot done"></span><span class="ob-dot active"></span><span class="ob-dot"></span>
+  </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     MORNING CHECK-IN
-═══════════════════════════════════════════ -->
+<!-- ONBOARDING 5 — API Key -->
+<div id="screen-onboarding-5" class="screen">
+  <div class="onboarding-wrap">
+    <div class="hana-avatar">🔑</div>
+    <h2>One last thing!</h2>
+    <p class="ob-subtitle">Paste your <strong>Gemini API key</strong> to activate Hana-sensei.<br><small>Stored only in your browser.</small></p>
+    <input type="password" id="input-apikey" class="text-input" placeholder="AIza..."
+      onkeydown="if(event.key==='Enter') saveApiKey()">
+    <p class="api-hint">Free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></p>
+    <button class="btn-primary" onclick="saveApiKey()">I'm ready — let's go! 🌸</button>
+    <button class="btn-secondary" onclick="skipApiKey()" style="margin-top:8px">Skip for now</button>
+  </div>
+  <div class="ob-progress">
+    <span class="ob-dot done"></span><span class="ob-dot done"></span>
+    <span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot active"></span>
+  </div>
+</div>
+
+<!-- CHECK-IN -->
 <div id="screen-checkin" class="screen">
   <div class="checkin-wrap">
     <div class="hana-bubble">
       <span class="hana-icon">🌸</span>
-      <p id="checkin-greeting">Good morning! How are you feeling today?</p>
+      <p id="checkin-greeting">How are you feeling today?</p>
     </div>
     <h3 class="mood-label">Your energy level:</h3>
-    <div class="mood-row" id="mood-selector">
-      <button class="mood-btn" data-mood="1">😩<span>Low</span></button>
-      <button class="mood-btn" data-mood="2">😕<span>Meh</span></button>
-      <button class="mood-btn" data-mood="3">😊<span>OK</span></button>
-      <button class="mood-btn" data-mood="4">😄<span>Good</span></button>
-      <button class="mood-btn" data-mood="5">🤩<span>Great</span></button>
+    <div class="mood-row">
+      <button class="mood-btn" onclick="selectMood(1)">😩<span>Low</span></button>
+      <button class="mood-btn" onclick="selectMood(2)">😕<span>Meh</span></button>
+      <button class="mood-btn" onclick="selectMood(3)">😊<span>OK</span></button>
+      <button class="mood-btn" onclick="selectMood(4)">😄<span>Good</span></button>
+      <button class="mood-btn" onclick="selectMood(5)">🤩<span>Great</span></button>
     </div>
     <div id="commitment-section" style="display:none">
       <h3 class="mood-label">Make a small commitment:</h3>
-      <input type="text" id="commitment-input" class="text-input" placeholder='e.g. "I will study at 8pm in my bedroom"'>
-      <button class="btn-primary" id="generate-tasks-btn">
+      <input type="text" id="commitment-input" class="text-input" placeholder='"I will study at 8pm in my bedroom"'>
+      <button class="btn-primary" id="gen-btn" onclick="generateTasks()">
         <span id="gen-btn-text">Generate my tasks ✨</span>
         <span id="gen-btn-loader" style="display:none">Hana is thinking... 🌸</span>
       </button>
@@ -136,9 +375,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     HOME SCREEN
-═══════════════════════════════════════════ -->
+<!-- HOME -->
 <div id="screen-home" class="screen">
   <div class="home-header">
     <div class="home-top">
@@ -153,57 +390,44 @@
     </div>
     <div class="streak-bar">
       <div class="streak-item">🔥 <strong id="streak-count">0</strong> day streak</div>
-      <div class="streak-item">⭐ <strong id="total-xp">0</strong> total XP</div>
+      <div class="streak-item">⭐ <strong id="total-xp">0</strong> XP</div>
     </div>
   </div>
-
   <div class="tasks-section">
     <h3 class="section-title">Today's tiny tasks</h3>
     <div id="task-list" class="task-list">
       <div class="task-placeholder">
-        <p>No tasks yet! Check in to get your tasks. 🌸</p>
-        <button class="btn-secondary" id="btn-goto-checkin">Morning Check-in</button>
+        <p>No tasks yet! Check in to get your tasks 🌸</p>
+        <button class="btn-secondary" onclick="goTo('checkin')">Morning Check-in</button>
       </div>
     </div>
   </div>
-
   <div class="unlock-section" id="unlock-section" style="display:none">
     <div class="unlock-card">
       <span class="unlock-icon">📱</span>
-      <div>
-        <strong>Social Media Unlocked!</strong>
-        <p>20 minutes earned</p>
-      </div>
-      <button class="btn-unlock" id="btn-use-unlock">Use</button>
+      <div><strong>Social Media Unlocked!</strong><p>20 minutes earned</p></div>
+      <button class="btn-unlock" onclick="useUnlock()">Use</button>
     </div>
   </div>
-
-  <button class="fab-tutor" id="fab-tutor-btn" title="Chat with Hana-sensei">
-    <span>🌸</span>
-    <span class="fab-label">Hana</span>
-  </button>
-
+  <button class="fab-tutor" onclick="goTo('tutor')"><span>🌸</span><span class="fab-label">Hana</span></button>
   <nav class="bottom-nav">
-    <button class="nav-btn active" data-screen="home">🏠<span>Home</span></button>
-    <button class="nav-btn" data-screen="checkin">☀️<span>Check-in</span></button>
-    <button class="nav-btn" data-screen="vocab">📚<span>Vocab</span></button>
-    <button class="nav-btn" data-screen="tutor">🌸<span>Hana</span></button>
-    <button class="nav-btn" data-screen="progress">📊<span>Progress</span></button>
+    <button class="nav-btn active" onclick="goTo('home')">🏠<span>Home</span></button>
+    <button class="nav-btn" onclick="goTo('checkin')">☀️<span>Check-in</span></button>
+    <button class="nav-btn" onclick="goTo('vocab')">📚<span>Vocab</span></button>
+    <button class="nav-btn" onclick="goTo('tutor')">🌸<span>Hana</span></button>
+    <button class="nav-btn" onclick="goTo('progress')">📊<span>Progress</span></button>
   </nav>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     VOCAB FLASHCARDS
-═══════════════════════════════════════════ -->
+<!-- VOCAB -->
 <div id="screen-vocab" class="screen">
   <div class="screen-header">
-    <button class="back-btn" data-screen="home">← Back</button>
+    <button class="back-btn" onclick="goTo('home')">← Back</button>
     <h2>Vocabulary</h2>
     <span id="vocab-counter" class="counter-badge">1/10</span>
   </div>
-
   <div class="flashcard-arena">
-    <div class="flashcard" id="flashcard">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
       <div class="card-front">
         <div class="card-kanji" id="card-kanji">読む</div>
         <div class="card-hint">Tap to reveal</div>
@@ -215,69 +439,57 @@
       </div>
     </div>
   </div>
-
   <div id="card-actions" class="card-actions" style="display:none">
-    <button class="btn-forgot" id="btn-forgot">😅 Still learning</button>
-    <button class="btn-knew" id="btn-knew">✓ Got it!</button>
+    <button class="btn-forgot" onclick="vocabResult('forgot')">😅 Still learning</button>
+    <button class="btn-knew" onclick="vocabResult('knew')">✓ Got it!</button>
   </div>
-
   <div class="vocab-xp-bar">
     <div class="xp-label">Session XP: <strong id="session-xp">0</strong></div>
     <div class="xp-progress"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
   </div>
-
   <nav class="bottom-nav">
-    <button class="nav-btn" data-screen="home">🏠<span>Home</span></button>
-    <button class="nav-btn" data-screen="checkin">☀️<span>Check-in</span></button>
-    <button class="nav-btn active" data-screen="vocab">📚<span>Vocab</span></button>
-    <button class="nav-btn" data-screen="tutor">🌸<span>Hana</span></button>
-    <button class="nav-btn" data-screen="progress">📊<span>Progress</span></button>
+    <button class="nav-btn" onclick="goTo('home')">🏠<span>Home</span></button>
+    <button class="nav-btn" onclick="goTo('checkin')">☀️<span>Check-in</span></button>
+    <button class="nav-btn active" onclick="goTo('vocab')">📚<span>Vocab</span></button>
+    <button class="nav-btn" onclick="goTo('tutor')">🌸<span>Hana</span></button>
+    <button class="nav-btn" onclick="goTo('progress')">📊<span>Progress</span></button>
   </nav>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     AI TUTOR CHAT
-═══════════════════════════════════════════ -->
+<!-- TUTOR -->
 <div id="screen-tutor" class="screen">
   <div class="tutor-header">
-    <button class="back-btn" data-screen="home">← Back</button>
+    <button class="back-btn" onclick="goTo('home')">← Back</button>
     <div class="tutor-title">
       <span class="tutor-avatar">🌸</span>
-      <div>
-        <strong>Hana-sensei</strong>
-        <small>Always here for you</small>
-      </div>
+      <div><strong>Hana-sensei</strong><small>Always here for you</small></div>
     </div>
   </div>
-
   <div class="chat-messages" id="chat-messages">
     <div class="chat-bubble hana">
-      <div class="bubble-text">こんにちは！ I'm so happy you're here. What would you like to study today? Ask me anything about Japanese grammar, vocabulary, or just tell me how you're feeling! 🌸</div>
+      <div class="bubble-text">こんにちは！ I'm so happy you're here. Ask me anything about Japanese grammar or vocabulary! 🌸</div>
     </div>
   </div>
-
   <div class="quick-prompts" id="quick-prompts">
-    <button class="qp-btn" data-prompt="Explain ように grammar point for N2">Explain ように</button>
-    <button class="qp-btn" data-prompt="Give me 3 N2 vocabulary words with examples">3 N2 words</button>
-    <button class="qp-btn" data-prompt="I feel unmotivated to study today">I'm unmotivated</button>
-    <button class="qp-btn" data-prompt="Can you check my Japanese? 昨日学校に行きませんでした">Check my Japanese</button>
+    <button class="qp-btn" onclick="quickPrompt('Explain ように grammar')">Explain ように</button>
+    <button class="qp-btn" onclick="quickPrompt('Give me 3 N2 vocab words')">3 N2 words</button>
+    <button class="qp-btn" onclick="quickPrompt('I feel unmotivated today')">I\'m unmotivated</button>
+    <button class="qp-btn" onclick="quickPrompt('Make a short quiz for me')">Quiz me!</button>
   </div>
-
   <div class="chat-input-row">
-    <textarea id="chat-input" class="chat-input" placeholder="Ask Hana anything..." rows="1"></textarea>
-    <button class="send-btn" id="send-btn">Send</button>
+    <textarea id="chat-input" class="chat-input" placeholder="Ask Hana anything..." rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+    <button class="send-btn" id="send-btn" onclick="sendMessage()">Send</button>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     PROGRESS SCREEN
-═══════════════════════════════════════════ -->
+<!-- PROGRESS -->
 <div id="screen-progress" class="screen">
   <div class="screen-header">
-    <button class="back-btn" data-screen="home">← Back</button>
+    <button class="back-btn" onclick="goTo('home')">← Back</button>
     <h2>Your Progress</h2>
   </div>
-
   <div class="progress-scroll">
     <div class="level-card">
       <div class="level-kanji" id="prog-level-kanji">旅人</div>
@@ -287,61 +499,36 @@
         <div class="level-bar"><div class="level-fill" id="level-fill" style="width:0%"></div></div>
       </div>
     </div>
-
     <div class="stats-grid">
-      <div class="stat-tile">
-        <span class="stat-num" id="stat-streak">0</span>
-        <span class="stat-label">Day Streak 🔥</span>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-num" id="stat-words">0</span>
-        <span class="stat-label">Words Learned 📖</span>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-num" id="stat-sessions">0</span>
-        <span class="stat-label">Sessions 🎯</span>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-num" id="stat-xp">0</span>
-        <span class="stat-label">Total XP ⭐</span>
-      </div>
+      <div class="stat-tile"><span class="stat-num" id="stat-streak">0</span><span class="stat-label">Day Streak 🔥</span></div>
+      <div class="stat-tile"><span class="stat-num" id="stat-words">0</span><span class="stat-label">Words Learned 📖</span></div>
+      <div class="stat-tile"><span class="stat-num" id="stat-sessions">0</span><span class="stat-label">Sessions 🎯</span></div>
+      <div class="stat-tile"><span class="stat-num" id="stat-xp">0</span><span class="stat-label">Total XP ⭐</span></div>
     </div>
-
-    <div class="achievements-section">
-      <h3 class="section-title">Achievements</h3>
-      <div id="achievements-list" class="achievements-list"></div>
-    </div>
-
-    <div class="week-chart-section">
-      <h3 class="section-title">This week</h3>
-      <div class="week-chart" id="week-chart"></div>
-    </div>
+    <h3 class="section-title">Achievements</h3>
+    <div id="achievements-list" class="achievements-list"></div>
+    <h3 class="section-title">This week</h3>
+    <div class="week-chart" id="week-chart"></div>
   </div>
-
   <nav class="bottom-nav">
-    <button class="nav-btn" data-screen="home">🏠<span>Home</span></button>
-    <button class="nav-btn" data-screen="checkin">☀️<span>Check-in</span></button>
-    <button class="nav-btn" data-screen="vocab">📚<span>Vocab</span></button>
-    <button class="nav-btn" data-screen="tutor">🌸<span>Hana</span></button>
-    <button class="nav-btn active" data-screen="progress">📊<span>Progress</span></button>
+    <button class="nav-btn" onclick="goTo('home')">🏠<span>Home</span></button>
+    <button class="nav-btn" onclick="goTo('checkin')">☀️<span>Check-in</span></button>
+    <button class="nav-btn" onclick="goTo('vocab')">📚<span>Vocab</span></button>
+    <button class="nav-btn" onclick="goTo('tutor')">🌸<span>Hana</span></button>
+    <button class="nav-btn active" onclick="goTo('progress')">📊<span>Progress</span></button>
   </nav>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     TASK STUDY SCREEN
-═══════════════════════════════════════════ -->
+<!-- TASK SCREEN -->
 <div id="screen-task" class="screen">
   <div class="screen-header">
-    <button class="back-btn" data-screen="home">← Back</button>
+    <button class="back-btn" onclick="goTo('home')">← Back</button>
     <h2 id="task-screen-title">Study</h2>
   </div>
   <div class="task-content" id="task-content">
-    <div class="task-loading">
-      <div class="hana-spin">🌸</div>
-      <p>Hana is preparing your lesson...</p>
-    </div>
+    <div class="task-loading"><div class="hana-spin">🌸</div><p>Hana is preparing your lesson...</p></div>
   </div>
-  <button class="btn-primary task-done-btn" id="task-done-btn" style="display:none">
+  <button class="btn-primary task-done-btn" id="task-done-btn" style="display:none" onclick="completeTask()">
     ✓ Task Complete! +<span id="task-xp-reward">20</span> XP
   </button>
 </div>
@@ -349,18 +536,534 @@
 <!-- TOAST -->
 <div id="toast" class="toast"></div>
 
-<!-- CELEBRATION OVERLAY -->
+<!-- CELEBRATION -->
 <div id="celebration" class="celebration-overlay" style="display:none">
   <div class="celebration-box">
     <div class="cel-emoji" id="cel-emoji">🎉</div>
     <h2 id="cel-title">Wonderful!</h2>
     <p id="cel-msg">You completed a task!</p>
     <div class="xp-gained">+<span id="cel-xp">20</span> XP</div>
-    <button class="btn-primary" id="btn-close-celebration">Keep going! 💪</button>
+    <button class="btn-primary" onclick="closeCelebration()">Keep going! 💪</button>
   </div>
 </div>
 
-<!-- No external SDK needed — Gemini called via plain fetch() in app.js -->
-<script src="app.js"></script>
+<script>
+// ── API KEY — paste yours here ─────────────────────────────────────
+var API_KEY = "YOUR_API_KEY_HERE";
+// ──────────────────────────────────────────────────────────────────
+
+var GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=";
+
+// ── VOCAB DATA ─────────────────────────────────────────────────────
+var VOCAB = [
+  {k:"読む",r:"よむ (yomu)",m:"to read",e:"本を読む — to read a book"},
+  {k:"聞く",r:"きく (kiku)",m:"to listen / ask",e:"音楽を聞く — to listen to music"},
+  {k:"書く",r:"かく (kaku)",m:"to write",e:"手紙を書く — to write a letter"},
+  {k:"話す",r:"はなす (hanasu)",m:"to speak",e:"日本語を話す — to speak Japanese"},
+  {k:"覚える",r:"おぼえる (oboeru)",m:"to memorize",e:"単語を覚える — memorize vocab"},
+  {k:"忘れる",r:"わすれる (wasureru)",m:"to forget",e:"名前を忘れた — I forgot the name"},
+  {k:"調べる",r:"しらべる (shiraberu)",m:"to look up",e:"辞書で調べる — look up in a dictionary"},
+  {k:"確認する",r:"かくにんする (kakunin suru)",m:"to confirm",e:"予約を確認する — confirm a reservation"},
+  {k:"決める",r:"きめる (kimeru)",m:"to decide",e:"計画を決める — decide on a plan"},
+  {k:"集める",r:"あつめる (atsumeru)",m:"to collect",e:"情報を集める — gather information"},
+  {k:"比べる",r:"くらべる (kuraberu)",m:"to compare",e:"価格を比べる — compare prices"},
+  {k:"続ける",r:"つづける (tsuzukeru)",m:"to continue",e:"勉強を続ける — continue studying"},
+  {k:"伝える",r:"つたえる (tsutaeru)",m:"to convey",e:"気持ちを伝える — convey feelings"},
+  {k:"受ける",r:"うける (ukeru)",m:"to receive / take",e:"試験を受ける — take an exam"},
+  {k:"増える",r:"ふえる (fueru)",m:"to increase",e:"人口が増える — population increases"},
+  {k:"減る",r:"へる (heru)",m:"to decrease",e:"体重が減る — weight decreases"},
+  {k:"気づく",r:"きづく (kiduku)",m:"to notice",e:"間違いに気づく — notice a mistake"},
+  {k:"諦める",r:"あきらめる (akirameru)",m:"to give up",e:"夢を諦めない — don't give up"},
+  {k:"頑張る",r:"がんばる (ganbaru)",m:"to do one's best",e:"試験に頑張る — do your best"},
+  {k:"努力",r:"どりょく (doryoku)",m:"effort",e:"努力を続ける — keep making effort"},
+  {k:"経験",r:"けいけん (keiken)",m:"experience",e:"経験を積む — gain experience"},
+  {k:"目標",r:"もくひょう (mokuhyou)",m:"goal / target",e:"目標を達成する — achieve a goal"},
+  {k:"成功",r:"せいこう (seikou)",m:"success",e:"成功を祝う — celebrate success"},
+  {k:"失敗",r:"しっぱい (shippai)",m:"failure",e:"失敗から学ぶ — learn from failure"},
+  {k:"機会",r:"きかい (kikai)",m:"opportunity",e:"機会を活かす — make use of an opportunity"},
+  {k:"問題",r:"もんだい (mondai)",m:"problem",e:"問題を解く — solve a problem"},
+  {k:"方法",r:"ほうほう (houhou)",m:"method / way",e:"別の方法を試す — try another method"},
+  {k:"理由",r:"りゆう (riyuu)",m:"reason",e:"理由を説明する — explain the reason"},
+  {k:"結果",r:"けっか (kekka)",m:"result",e:"結果を確認する — check the result"},
+  {k:"影響",r:"えいきょう (eikyou)",m:"influence",e:"社会に影響する — influence society"}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────
+function sGet(k,d){try{var v=localStorage.getItem("nhk_"+k);return v!==null?JSON.parse(v):d;}catch(e){return d;}}
+function sSet(k,v){try{localStorage.setItem("nhk_"+k,JSON.stringify(v));}catch(e){}}
+function getUser(){return sGet("user",{name:"",why:"",minutes:15,blockers:[],streak:0,longestStreak:0,totalXp:0,wordsLearned:0,sessionsCompleted:0,lastStudyDate:null,achievements:[],weekActivity:[0,0,0,0,0,0,0]});}
+function saveUser(u){sSet("user",u);}
+
+// ── LEVELS ─────────────────────────────────────────────────────────
+var LEVELS=[{min:0,max:100,k:"旅人",n:"Traveler"},{min:101,max:500,k:"学生",n:"Student"},{min:501,max:1500,k:"修行者",n:"Apprentice"},{min:1501,max:3500,k:"侍",n:"Samurai"},{min:3501,max:99999,k:"先生",n:"Sensei"}];
+function getLevel(xp){for(var i=0;i<LEVELS.length;i++){if(xp>=LEVELS[i].min&&xp<=LEVELS[i].max)return LEVELS[i];}return LEVELS[0];}
+
+// ── NAVIGATION ─────────────────────────────────────────────────────
+var currentScreen = "splash";
+function goTo(id){
+  var prev=document.getElementById("screen-"+currentScreen);
+  var next=document.getElementById("screen-"+id);
+  if(!next){showToast("Screen not found: "+id);return;}
+  if(prev)prev.classList.remove("active");
+  currentScreen=id;
+  next.classList.add("active");
+  if(id==="home")refreshHome();
+  if(id==="vocab")startVocab();
+  if(id==="progress")refreshProgress();
+  if(id==="checkin")refreshCheckin();
+}
+
+// ── ONBOARDING ─────────────────────────────────────────────────────
+var selectedWhy = "";
+var selectedTime = 0;
+
+function saveName(){
+  var v=document.getElementById("input-name").value.trim();
+  if(!v){showToast("Please enter your name 😊");return;}
+  var u=getUser();u.name=v;saveUser(u);
+  goTo("onboarding-2");
+}
+
+function selectWhy(btn,val){
+  document.querySelectorAll(".choice-card").forEach(function(c){c.classList.remove("selected");});
+  btn.classList.add("selected");
+  selectedWhy=val;
+}
+
+function saveWhy(){
+  if(!selectedWhy){showToast("Pick one that feels right 🌸");return;}
+  var u=getUser();u.why=selectedWhy;saveUser(u);
+  goTo("onboarding-3");
+}
+
+function selectTime(mins){
+  document.querySelectorAll(".time-card").forEach(function(c){c.classList.remove("selected");});
+  document.getElementById("time-"+mins).classList.add("selected");
+  selectedTime=mins;
+}
+
+function saveTime(){
+  if(!selectedTime){showToast("Tap a time to select it 🕐");return;}
+  var u=getUser();u.minutes=selectedTime;saveUser(u);
+  goTo("onboarding-4");
+}
+
+function toggleBlocker(btn,val){btn.classList.toggle("selected");}
+
+function saveBlockers(){
+  var sel=[];
+  document.querySelectorAll(".blocker-tag.selected").forEach(function(el){sel.push(el.textContent.trim());});
+  var u=getUser();u.blockers=sel;saveUser(u);
+  goTo("onboarding-5");
+}
+
+function saveApiKey(){
+  var hardcoded = API_KEY !== "YOUR_API_KEY_HERE";
+  if(hardcoded){sSet("onboarded",true);goTo("checkin");return;}
+  var v=document.getElementById("input-apikey").value.trim();
+  if(!v.startsWith("AIza")){showToast("Paste a valid Gemini key (starts with AIza...)");return;}
+  sSet("apikey",v);
+  sSet("onboarded",true);
+  goTo("checkin");
+}
+
+function skipApiKey(){sSet("onboarded",true);goTo("checkin");}
+
+// ── CHECK-IN ───────────────────────────────────────────────────────
+var currentMood = 3;
+
+function refreshCheckin(){
+  var u=getUser();
+  var h=new Date().getHours();
+  var greet=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
+  var el=document.getElementById("checkin-greeting");
+  if(el)el.textContent=greet+", "+(u.name||"friend")+"! How are you feeling today? 🌸";
+  var cs=document.getElementById("commitment-section");
+  if(cs)cs.style.display="none";
+  document.querySelectorAll(".mood-btn").forEach(function(b){b.classList.remove("selected");});
+}
+
+function selectMood(n){
+  currentMood=n;
+  document.querySelectorAll(".mood-btn").forEach(function(b){b.classList.remove("selected");});
+  var btns=document.querySelectorAll(".mood-btn");
+  if(btns[n-1])btns[n-1].classList.add("selected");
+  var cs=document.getElementById("commitment-section");
+  if(cs)cs.style.display="flex";
+}
+
+function generateTasks(){
+  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  var btn=document.getElementById("gen-btn");
+  var t=document.getElementById("gen-btn-text");
+  var l=document.getElementById("gen-btn-loader");
+  if(btn)btn.disabled=true;
+  if(t)t.style.display="none";
+  if(l)l.style.display="inline";
+
+  var u=getUser();
+  var count=u.minutes>=30?3:u.minutes>=15?2:1;
+  var dur=Math.floor(u.minutes/count);
+
+  if(!key){
+    // No key — use fallback tasks
+    var tasks=fallbackTasks(count,dur);
+    finishTaskGen(tasks);
+    return;
+  }
+
+  var prompt="Return ONLY a JSON array, no markdown, no explanation.\nGenerate "+count+" JLPT N2 study tasks for "+u.name+".\nMood: "+currentMood+"/5. Time: "+u.minutes+" min. Each max "+dur+" min.\n"+(currentMood<=2?"Make tasks very easy.\n":"")+(currentMood>=4?"One task can be harder.\n":"")+"Mix types (vocab,grammar,reading). Warm encouraging titles. icon=emoji. xp_reward=10-30.\nReturn ONLY: [{\"title\":\"\",\"type\":\"\",\"duration_min\":5,\"description\":\"\",\"xp_reward\":15,\"icon\":\"\"}]";
+
+  callGemini(prompt,key,400).then(function(text){
+    try{
+      text=text.replace(/```json|```/g,"").trim();
+      var tasks=JSON.parse(text);
+      if(!Array.isArray(tasks))throw new Error("not array");
+      finishTaskGen(tasks.slice(0,count));
+    }catch(e){
+      finishTaskGen(fallbackTasks(count,dur));
+    }
+  }).catch(function(){finishTaskGen(fallbackTasks(count,dur));});
+}
+
+function finishTaskGen(tasks){
+  var btn=document.getElementById("gen-btn");
+  var t=document.getElementById("gen-btn-text");
+  var l=document.getElementById("gen-btn-loader");
+  if(btn)btn.disabled=false;
+  if(t)t.style.display="inline";
+  if(l)l.style.display="none";
+  var ci=document.getElementById("commitment-input");
+  var commitment=ci?ci.value.trim():"";
+  sSet("dailyPlan",{date:new Date().toDateString(),tasks:tasks,commitment:commitment,mood:currentMood});
+  currentTasks=tasks.map(function(t){return Object.assign({},t,{completed:false});});
+  goTo("home");
+}
+
+function fallbackTasks(count,dur){
+  var all=[
+    {title:"5 Quick Vocabulary Flashcards 🌸",type:"vocab",duration_min:dur,description:"Review 5 N2 words.",xp_reward:15,icon:"📚"},
+    {title:"Ask Hana a Grammar Question",type:"grammar",duration_min:dur,description:"Ask Hana about an N2 grammar point.",xp_reward:20,icon:"📝"},
+    {title:"Read a Short Passage",type:"reading",duration_min:dur,description:"Ask Hana for a short N2 reading.",xp_reward:25,icon:"📖"}
+  ];
+  return all.slice(0,count);
+}
+
+// ── HOME ───────────────────────────────────────────────────────────
+var currentTasks = [];
+var activeTaskIndex = -1;
+
+function refreshHome(){
+  var u=getUser();
+  var h=new Date().getHours();
+  var jp=h<12?"おはよう":h<17?"こんにちは":"こんばんは";
+  setText("home-greeting",jp+"!");
+  setText("home-name",u.name||"Friend");
+  var lv=getLevel(u.totalXp);
+  setText("home-level",lv.k);
+  setText("home-xp",u.totalXp+" XP");
+  setText("streak-count",u.streak);
+  setText("total-xp",u.totalXp);
+
+  if(currentTasks.length===0){
+    var plan=sGet("dailyPlan",null);
+    if(plan&&plan.date===new Date().toDateString()){
+      currentTasks=plan.tasks.map(function(t){return Object.assign({},t,{completed:false});});
+    }
+  }
+
+  if(currentTasks.length>0){renderTasks();}
+  else{
+    var tl=document.getElementById("task-list");
+    if(tl)tl.innerHTML='<div class="task-placeholder"><p>No tasks yet! Check in to get your tasks 🌸</p><button class="btn-secondary" onclick="goTo(\'checkin\')">Morning Check-in</button></div>';
+  }
+  checkUnlock();
+}
+
+function renderTasks(){
+  var tl=document.getElementById("task-list");
+  if(!tl)return;
+  tl.innerHTML=currentTasks.map(function(t,i){
+    return '<div class="task-card'+(t.completed?" completed":"")+ '" onclick="startTask('+i+')">'+'<span class="task-icon">'+(t.icon||"📝")+'</span>'+'<div class="task-info"><div class="task-title">'+t.title+'</div><div class="task-meta">'+t.type+' · '+t.duration_min+' min</div></div>'+'<span class="task-xp">+'+t.xp_reward+' XP</span>'+'<span class="task-check">'+(t.completed?"✅":"○")+'</span></div>';
+  }).join("");
+}
+
+function setText(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+
+// ── TASK SCREEN ────────────────────────────────────────────────────
+function startTask(idx){
+  var task=currentTasks[idx];
+  if(!task)return;
+  if(task.completed){showToast("Already done! ✅");return;}
+  activeTaskIndex=idx;
+  setText("task-screen-title",task.title);
+  setText("task-xp-reward",task.xp_reward);
+  var tdb=document.getElementById("task-done-btn");
+  if(tdb)tdb.style.display="none";
+  var tc=document.getElementById("task-content");
+  if(tc)tc.innerHTML='<div class="task-loading"><div class="hana-spin">🌸</div><p>Hana is preparing your lesson...</p></div>';
+  goTo("task");
+
+  var u=getUser();
+  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  if(!key){
+    if(tc)tc.innerHTML='<div class="grammar-block"><p>Chat with Hana in the Hana tab to get a lesson on this topic! 🌸</p></div>';
+    if(tdb)tdb.style.display="block";
+    return;
+  }
+
+  var prompt="";
+  if(task.type==="grammar"){
+    prompt="Grammar lesson for JLPT N2. Task: "+task.title+". Use these plain-text labels:\nSUMMARY: one simple line\nPATTERN: structure\nEXAMPLE 1: Japanese — English\nEXAMPLE 2: Japanese — English\nTIP: memory trick\nUnder 150 words. End warmly.";
+  }else if(task.type==="vocab"){
+    prompt="Vocab lesson for JLPT N2. Give 5 N2 words using:\nWORD: kanji — reading — meaning\nEXAMPLE: sentence — translation\nWarm tone. End with encouragement.";
+  }else{
+    prompt="Create a warm N2 study activity for "+u.name+". Task: "+task.title+". Description: "+task.description+". Personal tone, under 150 words. End with a small exercise.";
+  }
+
+  callGemini(prompt,key,600).then(function(text){
+    if(tc)tc.innerHTML=formatLesson(text);
+    if(tdb)tdb.style.display="block";
+  });
+}
+
+function formatLesson(text){
+  var labels=["SUMMARY","PATTERN","EXAMPLE 1","EXAMPLE 2","TIP","WORD","EXAMPLE"];
+  var lines=text.split("\n").filter(function(l){return l.trim();});
+  var html='<div class="grammar-content">';
+  lines.forEach(function(line){
+    var matched=null;
+    for(var i=0;i<labels.length;i++){if(line.toUpperCase().indexOf(labels[i]+":")===0){matched=labels[i];break;}}
+    if(matched){html+='<div class="grammar-block"><h4>'+matched+'</h4><p>'+line.substring(matched.length+1).trim()+'</p></div>';}
+    else if(line.trim()){html+='<div class="grammar-block"><p>'+line+'</p></div>';}
+  });
+  return html+'</div>';
+}
+
+function completeTask(){
+  if(activeTaskIndex<0)return;
+  var task=currentTasks[activeTaskIndex];
+  task.completed=true;
+  var u=getUser();
+  u.totalXp+=task.xp_reward;
+  u.sessionsCompleted=(u.sessionsCompleted||0)+1;
+  var today=new Date().toDateString();
+  var yesterday=new Date(Date.now()-86400000).toDateString();
+  if(u.lastStudyDate!==today){
+    if(u.lastStudyDate===yesterday){u.streak=(u.streak||0)+1;}
+    else{u.streak=1;}
+    u.lastStudyDate=today;
+    var day=new Date().getDay();
+    if(!u.weekActivity)u.weekActivity=[0,0,0,0,0,0,0];
+    u.weekActivity[day]=(u.weekActivity[day]||0)+task.xp_reward;
+  }
+  if(u.streak>(u.longestStreak||0))u.longestStreak=u.streak;
+  if(u.sessionsCompleted>=1&&u.achievements.indexOf("first_step")<0)u.achievements.push("first_step");
+  if(u.streak>=7&&u.achievements.indexOf("week_warrior")<0)u.achievements.push("week_warrior");
+  if(u.totalXp>=100&&u.achievements.indexOf("xp_100")<0)u.achievements.push("xp_100");
+  if(currentTasks.every(function(t){return t.completed;})){
+    sSet("unlock_earned",{earnedAt:Date.now(),used:false});
+    showToast("🎉 All done! 20 min social media unlocked!");
+  }
+  saveUser(u);
+  var msgs=[
+    {e:"🎉",h:"Wonderful!",b:"\""+task.title+"\" — done!"},
+    {e:"🌸",h:"Hana is proud!",b:"Every small step adds up!"},
+    {e:"⭐",h:"You did it!",b:"Your Japanese is getting stronger!"},
+    {e:"🌱",h:"Growing!",b:"Tiny steps every day — that's the secret."}
+  ];
+  var m=msgs[Math.floor(Math.random()*msgs.length)];
+  setText("cel-emoji",m.e);setText("cel-title",m.h);setText("cel-msg",m.b);setText("cel-xp",task.xp_reward);
+  var cv=document.getElementById("celebration");
+  if(cv)cv.style.display="flex";
+}
+
+function closeCelebration(){
+  var cv=document.getElementById("celebration");
+  if(cv)cv.style.display="none";
+  goTo("home");
+}
+
+// ── VOCAB ──────────────────────────────────────────────────────────
+var vocabDeck=[], vocabIndex=0, sessionXp=0;
+
+function startVocab(){
+  vocabDeck=VOCAB.slice().sort(function(){return Math.random()-.5;}).slice(0,10);
+  vocabIndex=0;sessionXp=0;
+  renderCard();
+  var xf=document.getElementById("xp-fill");if(xf)xf.style.width="0%";
+  setText("session-xp","0");
+}
+
+function renderCard(){
+  var c=vocabDeck[vocabIndex];
+  if(!c){vocabDone();return;}
+  setText("card-kanji",c.k);setText("card-reading",c.r);
+  setText("card-meaning",c.m);setText("card-example",c.e);
+  setText("vocab-counter",(vocabIndex+1)+"/"+vocabDeck.length);
+  var fc=document.getElementById("flashcard");if(fc)fc.classList.remove("flipped");
+  var ca=document.getElementById("card-actions");if(ca)ca.style.display="none";
+}
+
+function flipCard(){
+  var fc=document.getElementById("flashcard");if(!fc)return;
+  fc.classList.toggle("flipped");
+  var ca=document.getElementById("card-actions");
+  if(fc.classList.contains("flipped")){setTimeout(function(){if(ca)ca.style.display="flex";},300);}
+  else{if(ca)ca.style.display="none";}
+}
+
+function vocabResult(res){
+  var xp=res==="knew"?5:2;sessionXp+=xp;
+  setText("session-xp",sessionXp);
+  var xf=document.getElementById("xp-fill");
+  if(xf)xf.style.width=Math.min(100,(sessionXp/(vocabDeck.length*5))*100)+"%";
+  if(res==="knew"){var u=getUser();u.wordsLearned=(u.wordsLearned||0)+1;saveUser(u);}
+  vocabIndex++;
+  if(vocabIndex>=vocabDeck.length)vocabDone();else renderCard();
+}
+
+function vocabDone(){
+  var u=getUser();u.totalXp+=sessionXp;saveUser(u);
+  setText("cel-emoji","🌸");setText("cel-title","Session done!");
+  setText("cel-msg","Great vocab practice!");setText("cel-xp",sessionXp);
+  var cv=document.getElementById("celebration");if(cv)cv.style.display="flex";
+}
+
+// ── TUTOR CHAT ─────────────────────────────────────────────────────
+var chatHistory=[];
+
+function sendMessage(){
+  var input=document.getElementById("chat-input");
+  if(!input)return;
+  var msg=input.value.trim();if(!msg)return;
+  input.value="";input.style.height="auto";
+  appendBubble("user",msg);
+  var qp=document.getElementById("quick-prompts");if(qp)qp.style.display="none";
+  var loadId="load-"+Date.now();
+  appendBubble("hana","🌸 thinking...",loadId,true);
+  var sb=document.getElementById("send-btn");if(sb)sb.disabled=true;
+
+  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  if(!key){
+    var lb=document.getElementById(loadId);
+    if(lb)lb.querySelector(".bubble-text").textContent="Please add your Gemini API key to chat with me! 🔑";
+    if(sb)sb.disabled=false;return;
+  }
+
+  var u=getUser();
+  var sys="You are Hana-sensei, a warm encouraging Japanese tutor. Student: "+(u.name||"Friend")+", Streak: "+u.streak+" days, XP: "+u.totalXp+". NEVER say 'wrong'. Always end with encouragement. Max 5 sentences. 1-2 emojis max.";
+  var hist=chatHistory.slice(-6).map(function(m){return(m.r==="user"?"Student":"Hana")+": "+m.t;}).join("\n");
+  var full=hist?"Conversation so far:\n"+hist+"\n\nStudent: "+msg:msg;
+
+  callGemini(sys+"\n\n---\n"+full,key,500).then(function(reply){
+    if(sb)sb.disabled=false;
+    var lb=document.getElementById(loadId);
+    if(lb)lb.querySelector(".bubble-text").textContent=reply;
+    chatHistory.push({r:"user",t:msg});chatHistory.push({r:"hana",t:reply});
+    if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
+    var msgs=document.getElementById("chat-messages");
+    if(msgs)msgs.scrollTop=msgs.scrollHeight;
+  });
+}
+
+function quickPrompt(msg){
+  var i=document.getElementById("chat-input");if(i)i.value=msg;
+  sendMessage();
+}
+
+function appendBubble(role,text,id,loading){
+  var div=document.createElement("div");
+  div.className="chat-bubble "+role;
+  if(id)div.id=id;
+  div.innerHTML='<div class="bubble-text'+(loading?" loading":"")+'">'+text+'</div>';
+  var msgs=document.getElementById("chat-messages");
+  if(msgs){msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;}
+}
+
+// ── PROGRESS ───────────────────────────────────────────────────────
+function refreshProgress(){
+  var u=getUser();
+  var lv=getLevel(u.totalXp);
+  var idx=LEVELS.indexOf(lv);
+  var next=LEVELS[idx+1]||lv;
+  var pct=next!==lv?Math.min(100,((u.totalXp-lv.min)/(next.min-lv.min))*100):100;
+  setText("prog-level-kanji",lv.k);setText("prog-level-name",lv.n);
+  setText("prog-xp-text",u.totalXp+" / "+next.min+" XP to next level");
+  var lf=document.getElementById("level-fill");if(lf)lf.style.width=pct+"%";
+  setText("stat-streak",u.streak||0);setText("stat-words",u.wordsLearned||0);
+  setText("stat-sessions",u.sessionsCompleted||0);setText("stat-xp",u.totalXp||0);
+  var ACHS=[
+    {id:"first_step",icon:"👣",title:"First Step",desc:"Completed your first task"},
+    {id:"week_warrior",icon:"🔥",title:"Week Warrior",desc:"7-day streak!"},
+    {id:"xp_100",icon:"⭐",title:"First Hundred",desc:"Earned 100 XP"}
+  ];
+  var list=document.getElementById("achievements-list");
+  var earned=ACHS.filter(function(a){return(u.achievements||[]).indexOf(a.id)>-1;});
+  if(list)list.innerHTML=earned.length===0?'<p style="color:var(--muted);font-size:14px;text-align:center;padding:20px">Complete tasks to earn achievements! 🏅</p>':earned.map(function(a){return'<div class="achievement-item"><span class="ach-icon">'+a.icon+'</span><div class="ach-text"><strong>'+a.title+'</strong><br><small>'+a.desc+'</small></div></div>';}).join("");
+  var days=["S","M","T","W","T","F","S"];
+  var act=u.weekActivity||[0,0,0,0,0,0,0];
+  var mx=Math.max.apply(null,act.concat([1]));
+  var wc=document.getElementById("week-chart");
+  if(wc)wc.innerHTML=days.map(function(d,i){var h=Math.round((act[i]/mx)*60);return'<div class="week-bar-wrap"><div class="week-bar'+(act[i]>0?" has-data":"")+'" style="height:'+(h||4)+'px"></div><span class="week-day">'+d+'</span></div>';}).join("");
+}
+
+// ── SOCIAL UNLOCK ──────────────────────────────────────────────────
+function checkUnlock(){
+  var u=sGet("unlock_earned",null);
+  var el=document.getElementById("unlock-section");
+  if(el)el.style.display=(u&&!u.used)?"block":"none";
+}
+function useUnlock(){
+  var u=sGet("unlock_earned",null);if(!u||u.used)return;
+  u.used=true;sSet("unlock_earned",u);
+  var el=document.getElementById("unlock-section");if(el)el.style.display="none";
+  showToast("📱 20 minutes unlocked! Enjoy your break 🌸",5000);
+  setTimeout(function(){showToast("Break time over! Ready to study? 🌸",5000);},20*60*1000);
+}
+
+// ── GEMINI API CALL ────────────────────────────────────────────────
+function callGemini(prompt,key,maxTokens){
+  var url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+(key||API_KEY);
+  return fetch(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,maxOutputTokens:maxTokens||600}})
+  }).then(function(r){return r.json();}).then(function(d){
+    try{return d.candidates[0].content.parts[0].text;}
+    catch(e){return "Hana is taking a quick tea break — try again in a moment! 🍵";}
+  }).catch(function(){return "Hana is taking a quick tea break — try again in a moment! 🍵";});
+}
+
+// ── TOAST ──────────────────────────────────────────────────────────
+function showToast(msg,dur){
+  var t=document.getElementById("toast");if(!t)return;
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(function(){t.classList.remove("show");},dur||3000);
+}
+
+// ── FALLING PETALS ─────────────────────────────────────────────────
+function createPetals(){
+  var c=document.getElementById("petals");if(!c)return;
+  for(var i=0;i<14;i++){
+    var p=document.createElement("div");p.className="petal";
+    p.textContent=["🌸","🌺","🌼"][Math.floor(Math.random()*3)];
+    p.style.left=(Math.random()*100)+"%";
+    p.style.fontSize=(12+Math.random()*14)+"px";
+    p.style.animationDuration=(5+Math.random()*7)+"s";
+    p.style.animationDelay=(Math.random()*10)+"s";
+    c.appendChild(p);
+  }
+}
+
+// ── BOOT ───────────────────────────────────────────────────────────
+createPetals();
+setTimeout(function(){
+  var onboarded=sGet("onboarded",false);
+  var hasKey=API_KEY!=="YOUR_API_KEY_HERE"||sGet("apikey","");
+  if(onboarded&&hasKey){goTo("home");}
+  // else stay on splash
+},800);
+</script>
 </body>
 </html>
