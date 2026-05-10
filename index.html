@@ -18,12 +18,10 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-webkit-font-smoothing:antialiased}
 
-/* SCREEN SYSTEM */
 .screen{position:fixed;inset:0;background:var(--paper);display:none;flex-direction:column;overflow:hidden;max-width:480px;margin:0 auto;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s}
 .screen.active{display:flex;opacity:1;transform:translateY(0)}
 @media(min-width:480px){.screen{box-shadow:0 0 80px rgba(0,0,0,.5)}}
 
-/* SPLASH */
 #screen-splash{background:var(--ink);align-items:center;justify-content:center;text-align:center}
 .splash-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,#3a1a2e,var(--ink) 60%);pointer-events:none}
 .splash-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:16px;padding:40px 32px}
@@ -35,14 +33,12 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .petal{position:absolute;top:-20px;animation:fallPetal linear infinite;opacity:.7}
 @keyframes fallPetal{0%{transform:translateY(-20px) rotate(0deg);opacity:.8}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
 
-/* BUTTONS */
 .btn-primary{background:var(--sakura-deep);color:#fff;border:none;padding:16px 32px;border-radius:999px;font-family:var(--font-body);font-size:15px;font-weight:500;cursor:pointer;width:100%;max-width:320px;transition:transform .15s,background .15s;box-shadow:0 4px 20px rgba(217,122,149,.35)}
 .btn-primary:hover{background:#c96a85;transform:translateY(-1px)}
 .btn-primary:active{transform:translateY(0)}
 .btn-secondary{background:transparent;border:1.5px solid var(--sakura-deep);color:var(--sakura-deep);padding:12px 28px;border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;width:100%;max-width:320px}
 .btn-secondary:hover{background:rgba(217,122,149,.08)}
 
-/* ONBOARDING */
 .onboarding-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;gap:20px;text-align:center}
 .hana-avatar{font-size:52px;animation:bob 3s ease-in-out infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
@@ -59,14 +55,12 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .api-hint{font-size:12px;color:var(--muted)}
 .api-hint a{color:var(--sakura-deep)}
 
-/* CHOICE CARDS */
 .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:320px}
 .choice-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 12px;border:1.5px solid var(--border);border-radius:20px;background:var(--warm-white);font-size:13px;color:var(--slate);cursor:pointer;transition:all .2s}
 .choice-card:hover{border-color:var(--sakura);background:rgba(242,167,184,.08)}
 .choice-card.selected{border-color:var(--sakura-deep);background:rgba(217,122,149,.12);color:var(--sakura-deep);font-weight:500}
 .choice-card .card-emoji{font-size:28px}
 
-/* TIME CARDS */
 .time-options{display:flex;gap:12px;width:100%;max-width:320px}
 .time-card{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:20px 8px;border:1.5px solid var(--border);border-radius:20px;background:var(--warm-white);cursor:pointer;transition:all .2s}
 .time-card:hover{border-color:var(--sakura);background:rgba(242,167,184,.08)}
@@ -75,13 +69,11 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .time-unit{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 .time-label{font-size:11px;color:var(--slate);margin-top:4px}
 
-/* BLOCKER TAGS */
 .blocker-list{display:flex;flex-wrap:wrap;gap:10px;max-width:320px;justify-content:center}
 .blocker-tag{padding:10px 16px;border:1.5px solid var(--border);border-radius:999px;background:var(--warm-white);font-size:13px;color:var(--slate);cursor:pointer;transition:all .2s}
 .blocker-tag:hover{border-color:var(--sakura)}
 .blocker-tag.selected{border-color:var(--sakura-deep);background:rgba(217,122,149,.12);color:var(--sakura-deep);font-weight:500}
 
-/* CHECK-IN */
 .checkin-wrap{flex:1;padding:32px 24px;overflow-y:auto;display:flex;flex-direction:column;gap:24px}
 .hana-bubble{display:flex;gap:12px;align-items:flex-start;background:var(--warm-white);border-radius:20px;padding:16px;border:1px solid var(--border)}
 .hana-icon{font-size:28px;flex-shrink:0}
@@ -94,7 +86,6 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .mood-btn.selected{border-color:var(--sakura-deep);background:rgba(217,122,149,.1)}
 #commitment-section{display:flex;flex-direction:column;gap:12px}
 
-/* HOME */
 .home-header{background:var(--ink);padding:48px 24px 24px;flex-shrink:0}
 .home-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
 .home-greet{font-size:13px;color:rgba(255,255,255,.5)}
@@ -127,19 +118,16 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .fab-tutor{position:fixed;right:20px;bottom:80px;background:var(--sakura-deep);color:#fff;border:none;width:56px;height:56px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;box-shadow:0 4px 20px rgba(217,122,149,.4);z-index:10}
 .fab-label{font-size:9px;font-family:var(--font-body);font-weight:500}
 
-/* BOTTOM NAV */
 .bottom-nav{display:flex;background:var(--warm-white);border-top:1px solid var(--border);padding:8px 4px;flex-shrink:0}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;padding:6px 0;transition:color .2s}
 .nav-btn span{font-size:10px;font-family:var(--font-body)}
 .nav-btn.active,.nav-btn:hover{color:var(--sakura-deep)}
 
-/* SCREEN HEADER */
 .screen-header{display:flex;align-items:center;gap:12px;padding:52px 20px 16px;background:var(--warm-white);border-bottom:1px solid var(--border);flex-shrink:0}
 .screen-header h2{font-family:var(--font-serif);font-size:22px;flex:1}
 .back-btn{background:none;border:none;font-size:14px;color:var(--muted);cursor:pointer;padding:4px 0}
 .counter-badge{background:var(--sakura);color:var(--ink);font-size:11px;font-weight:600;padding:4px 10px;border-radius:999px}
 
-/* VOCAB */
 .flashcard-arena{flex:1;display:flex;align-items:center;justify-content:center;padding:24px;perspective:1000px}
 .flashcard{width:100%;max-width:340px;min-height:200px;position:relative;cursor:pointer;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.23,1,.32,1)}
 .flashcard.flipped{transform:rotateY(180deg)}
@@ -160,7 +148,6 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .xp-progress{height:4px;background:var(--cream);border-radius:4px;overflow:hidden}
 .xp-fill{height:100%;background:var(--gold);border-radius:4px;transition:width .5s ease}
 
-/* TUTOR */
 .tutor-header{display:flex;align-items:center;gap:12px;padding:52px 20px 16px;background:var(--ink);flex-shrink:0}
 .tutor-title{display:flex;align-items:center;gap:10px;flex:1}
 .tutor-title strong{color:#fff;font-size:16px}
@@ -185,7 +172,6 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .send-btn{background:var(--sakura-deep);color:#fff;border:none;padding:10px 18px;border-radius:20px;font-size:14px;cursor:pointer;white-space:nowrap}
 .send-btn:disabled{background:var(--muted);cursor:not-allowed}
 
-/* PROGRESS */
 .progress-scroll{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px}
 .level-card{display:flex;align-items:center;gap:16px;background:var(--ink);border-radius:32px;padding:24px}
 .level-kanji{font-family:var(--font-jp);font-size:44px;color:var(--sakura);flex-shrink:0}
@@ -209,7 +195,6 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .week-bar.has-data{background:var(--sakura)}
 .week-day{font-size:10px;color:var(--muted)}
 
-/* TASK SCREEN */
 .task-content{flex:1;padding:20px;overflow-y:auto}
 .task-loading{display:flex;flex-direction:column;align-items:center;gap:16px;padding:60px 20px}
 .hana-spin{font-size:48px;animation:spin 2s linear infinite}
@@ -221,11 +206,9 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 .grammar-block h4{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 .grammar-block p{font-size:14px;color:var(--slate);line-height:1.7}
 
-/* TOAST */
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 24px;border-radius:999px;font-size:14px;opacity:0;transition:all .3s;pointer-events:none;z-index:9999;white-space:nowrap;max-width:300px;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* CELEBRATION */
 .celebration-overlay{position:fixed;inset:0;background:rgba(26,16,24,.7);display:flex;align-items:center;justify-content:center;z-index:9000;padding:20px;backdrop-filter:blur(4px)}
 .celebration-box{background:var(--paper);border-radius:32px;padding:40px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;max-width:320px;width:100%;animation:popIn .4s cubic-bezier(.23,1,.32,1)}
 @keyframes popIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
@@ -336,7 +319,7 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
   <div class="onboarding-wrap">
     <div class="hana-avatar">🔑</div>
     <h2>One last thing!</h2>
-    <p class="ob-subtitle">Paste your <strong>Gemini API key</strong> to activate Hana-sensei.<br><small>Stored only in your browser.</small></p>
+    <p class="ob-subtitle">Paste your <strong>Gemini API key</strong> to activate Hana-sensei.<br><small>Free key — stored only in your browser.</small></p>
     <input type="password" id="input-apikey" class="text-input" placeholder="AIza..."
       onkeydown="if(event.key==='Enter') saveApiKey()">
     <p class="api-hint">Free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></p>
@@ -473,7 +456,7 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
   <div class="quick-prompts" id="quick-prompts">
     <button class="qp-btn" onclick="quickPrompt('Explain ように grammar')">Explain ように</button>
     <button class="qp-btn" onclick="quickPrompt('Give me 3 N2 vocab words')">3 N2 words</button>
-    <button class="qp-btn" onclick="quickPrompt('I feel unmotivated today')">I\'m unmotivated</button>
+    <button class="qp-btn" onclick="quickPrompt('I feel unmotivated today')">I'm unmotivated</button>
     <button class="qp-btn" onclick="quickPrompt('Make a short quiz for me')">Quiz me!</button>
   </div>
   <div class="chat-input-row">
@@ -548,12 +531,6 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 </div>
 
 <script>
-// ── API KEY — paste yours here ─────────────────────────────────────
-var API_KEY = "AIzaSyBMMmFwSs1oKEdIajTyxIg5mFFTO9KZMMw";
-// ──────────────────────────────────────────────────────────────────
-
-var GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=";
-
 // ── VOCAB DATA ─────────────────────────────────────────────────────
 var VOCAB = [
   {k:"読む",r:"よむ (yomu)",m:"to read",e:"本を読む — to read a book"},
@@ -599,7 +576,7 @@ var LEVELS=[{min:0,max:100,k:"旅人",n:"Traveler"},{min:101,max:500,k:"学生",
 function getLevel(xp){for(var i=0;i<LEVELS.length;i++){if(xp>=LEVELS[i].min&&xp<=LEVELS[i].max)return LEVELS[i];}return LEVELS[0];}
 
 // ── NAVIGATION ─────────────────────────────────────────────────────
-var currentScreen = "splash";
+var currentScreen="splash";
 function goTo(id){
   var prev=document.getElementById("screen-"+currentScreen);
   var next=document.getElementById("screen-"+id);
@@ -614,8 +591,8 @@ function goTo(id){
 }
 
 // ── ONBOARDING ─────────────────────────────────────────────────────
-var selectedWhy = "";
-var selectedTime = 0;
+var selectedWhy="";
+var selectedTime=0;
 
 function saveName(){
   var v=document.getElementById("input-name").value.trim();
@@ -623,55 +600,86 @@ function saveName(){
   var u=getUser();u.name=v;saveUser(u);
   goTo("onboarding-2");
 }
-
 function selectWhy(btn,val){
   document.querySelectorAll(".choice-card").forEach(function(c){c.classList.remove("selected");});
-  btn.classList.add("selected");
-  selectedWhy=val;
+  btn.classList.add("selected");selectedWhy=val;
 }
-
 function saveWhy(){
   if(!selectedWhy){showToast("Pick one that feels right 🌸");return;}
-  var u=getUser();u.why=selectedWhy;saveUser(u);
-  goTo("onboarding-3");
+  var u=getUser();u.why=selectedWhy;saveUser(u);goTo("onboarding-3");
 }
-
 function selectTime(mins){
   document.querySelectorAll(".time-card").forEach(function(c){c.classList.remove("selected");});
-  document.getElementById("time-"+mins).classList.add("selected");
-  selectedTime=mins;
+  document.getElementById("time-"+mins).classList.add("selected");selectedTime=mins;
 }
-
 function saveTime(){
   if(!selectedTime){showToast("Tap a time to select it 🕐");return;}
-  var u=getUser();u.minutes=selectedTime;saveUser(u);
-  goTo("onboarding-4");
+  var u=getUser();u.minutes=selectedTime;saveUser(u);goTo("onboarding-4");
 }
-
-function toggleBlocker(btn,val){btn.classList.toggle("selected");}
-
+function toggleBlocker(btn){btn.classList.toggle("selected");}
 function saveBlockers(){
   var sel=[];
   document.querySelectorAll(".blocker-tag.selected").forEach(function(el){sel.push(el.textContent.trim());});
-  var u=getUser();u.blockers=sel;saveUser(u);
-  goTo("onboarding-5");
+  var u=getUser();u.blockers=sel;saveUser(u);goTo("onboarding-5");
 }
-
 function saveApiKey(){
-  var hardcoded = API_KEY !== "YOUR_API_KEY_HERE";
-  if(hardcoded){sSet("onboarded",true);goTo("checkin");return;}
   var v=document.getElementById("input-apikey").value.trim();
   if(!v.startsWith("AIza")){showToast("Paste a valid Gemini key (starts with AIza...)");return;}
-  sSet("apikey",v);
-  sSet("onboarded",true);
-  goTo("checkin");
+  sSet("apikey",v);sSet("onboarded",true);goTo("checkin");
 }
-
 function skipApiKey(){sSet("onboarded",true);goTo("checkin");}
 
-// ── CHECK-IN ───────────────────────────────────────────────────────
-var currentMood = 3;
+// ── GEMINI API — FIXED ─────────────────────────────────────────────
+// Tries multiple model names so one of them works on your free account
+var GEMINI_MODELS=[
+  "gemini-1.5-flash",
+  "gemini-1.5-flash-latest",
+  "gemini-2.0-flash",
+  "gemini-pro"
+];
 
+function callGemini(prompt,key,maxTokens){
+  // Always read the key fresh — never rely on a cached variable
+  var resolvedKey=key||sGet("apikey","");
+  if(!resolvedKey){
+    showToast("No API key found — re-enter your key 🔑");
+    return Promise.resolve("Please add your Gemini API key to use Hana! 🔑");
+  }
+  return tryModel(prompt,resolvedKey,maxTokens||600,0);
+}
+
+function tryModel(prompt,key,maxTokens,idx){
+  if(idx>=GEMINI_MODELS.length){
+    return Promise.resolve("Hana couldn't connect. Double-check your Gemini API key is correct. 🌸");
+  }
+  var model=GEMINI_MODELS[idx];
+  var url="https://generativelanguage.googleapis.com/v1beta/models/"+model+":generateContent?key="+key;
+  return fetch(url,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      contents:[{parts:[{text:prompt}]}],
+      generationConfig:{temperature:0.85,maxOutputTokens:maxTokens}
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.error){
+      // This model failed — try the next one silently
+      console.warn("Model "+model+" error:",d.error.message);
+      return tryModel(prompt,key,maxTokens,idx+1);
+    }
+    try{return d.candidates[0].content.parts[0].text;}
+    catch(e){return tryModel(prompt,key,maxTokens,idx+1);}
+  })
+  .catch(function(err){
+    console.warn("Fetch error ("+model+"):",err);
+    return tryModel(prompt,key,maxTokens,idx+1);
+  });
+}
+
+// ── CHECK-IN ───────────────────────────────────────────────────────
+var currentMood=3;
 function refreshCheckin(){
   var u=getUser();
   var h=new Date().getHours();
@@ -682,7 +690,6 @@ function refreshCheckin(){
   if(cs)cs.style.display="none";
   document.querySelectorAll(".mood-btn").forEach(function(b){b.classList.remove("selected");});
 }
-
 function selectMood(n){
   currentMood=n;
   document.querySelectorAll(".mood-btn").forEach(function(b){b.classList.remove("selected");});
@@ -691,41 +698,28 @@ function selectMood(n){
   var cs=document.getElementById("commitment-section");
   if(cs)cs.style.display="flex";
 }
-
 function generateTasks(){
-  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  var key=sGet("apikey","");
   var btn=document.getElementById("gen-btn");
   var t=document.getElementById("gen-btn-text");
   var l=document.getElementById("gen-btn-loader");
   if(btn)btn.disabled=true;
   if(t)t.style.display="none";
   if(l)l.style.display="inline";
-
   var u=getUser();
   var count=u.minutes>=30?3:u.minutes>=15?2:1;
   var dur=Math.floor(u.minutes/count);
-
-  if(!key){
-    // No key — use fallback tasks
-    var tasks=fallbackTasks(count,dur);
-    finishTaskGen(tasks);
-    return;
-  }
-
+  if(!key){finishTaskGen(fallbackTasks(count,dur));return;}
   var prompt="Return ONLY a JSON array, no markdown, no explanation.\nGenerate "+count+" JLPT N2 study tasks for "+u.name+".\nMood: "+currentMood+"/5. Time: "+u.minutes+" min. Each max "+dur+" min.\n"+(currentMood<=2?"Make tasks very easy.\n":"")+(currentMood>=4?"One task can be harder.\n":"")+"Mix types (vocab,grammar,reading). Warm encouraging titles. icon=emoji. xp_reward=10-30.\nReturn ONLY: [{\"title\":\"\",\"type\":\"\",\"duration_min\":5,\"description\":\"\",\"xp_reward\":15,\"icon\":\"\"}]";
-
   callGemini(prompt,key,400).then(function(text){
     try{
       text=text.replace(/```json|```/g,"").trim();
       var tasks=JSON.parse(text);
-      if(!Array.isArray(tasks))throw new Error("not array");
+      if(!Array.isArray(tasks))throw new Error();
       finishTaskGen(tasks.slice(0,count));
-    }catch(e){
-      finishTaskGen(fallbackTasks(count,dur));
-    }
+    }catch(e){finishTaskGen(fallbackTasks(count,dur));}
   }).catch(function(){finishTaskGen(fallbackTasks(count,dur));});
 }
-
 function finishTaskGen(tasks){
   var btn=document.getElementById("gen-btn");
   var t=document.getElementById("gen-btn-text");
@@ -734,12 +728,10 @@ function finishTaskGen(tasks){
   if(t)t.style.display="inline";
   if(l)l.style.display="none";
   var ci=document.getElementById("commitment-input");
-  var commitment=ci?ci.value.trim():"";
-  sSet("dailyPlan",{date:new Date().toDateString(),tasks:tasks,commitment:commitment,mood:currentMood});
+  sSet("dailyPlan",{date:new Date().toDateString(),tasks:tasks,commitment:ci?ci.value.trim():"",mood:currentMood});
   currentTasks=tasks.map(function(t){return Object.assign({},t,{completed:false});});
   goTo("home");
 }
-
 function fallbackTasks(count,dur){
   var all=[
     {title:"5 Quick Vocabulary Flashcards 🌸",type:"vocab",duration_min:dur,description:"Review 5 N2 words.",xp_reward:15,icon:"📚"},
@@ -750,9 +742,8 @@ function fallbackTasks(count,dur){
 }
 
 // ── HOME ───────────────────────────────────────────────────────────
-var currentTasks = [];
-var activeTaskIndex = -1;
-
+var currentTasks=[];
+var activeTaskIndex=-1;
 function refreshHome(){
   var u=getUser();
   var h=new Date().getHours();
@@ -764,14 +755,12 @@ function refreshHome(){
   setText("home-xp",u.totalXp+" XP");
   setText("streak-count",u.streak);
   setText("total-xp",u.totalXp);
-
   if(currentTasks.length===0){
     var plan=sGet("dailyPlan",null);
     if(plan&&plan.date===new Date().toDateString()){
       currentTasks=plan.tasks.map(function(t){return Object.assign({},t,{completed:false});});
     }
   }
-
   if(currentTasks.length>0){renderTasks();}
   else{
     var tl=document.getElementById("task-list");
@@ -779,39 +768,31 @@ function refreshHome(){
   }
   checkUnlock();
 }
-
 function renderTasks(){
-  var tl=document.getElementById("task-list");
-  if(!tl)return;
+  var tl=document.getElementById("task-list");if(!tl)return;
   tl.innerHTML=currentTasks.map(function(t,i){
-    return '<div class="task-card'+(t.completed?" completed":"")+ '" onclick="startTask('+i+')">'+'<span class="task-icon">'+(t.icon||"📝")+'</span>'+'<div class="task-info"><div class="task-title">'+t.title+'</div><div class="task-meta">'+t.type+' · '+t.duration_min+' min</div></div>'+'<span class="task-xp">+'+t.xp_reward+' XP</span>'+'<span class="task-check">'+(t.completed?"✅":"○")+'</span></div>';
+    return'<div class="task-card'+(t.completed?" completed":"")+'" onclick="startTask('+i+')"><span class="task-icon">'+(t.icon||"📝")+'</span><div class="task-info"><div class="task-title">'+t.title+'</div><div class="task-meta">'+t.type+' · '+t.duration_min+' min</div></div><span class="task-xp">+'+t.xp_reward+' XP</span><span class="task-check">'+(t.completed?"✅":"○")+'</span></div>';
   }).join("");
 }
-
 function setText(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
 
 // ── TASK SCREEN ────────────────────────────────────────────────────
 function startTask(idx){
-  var task=currentTasks[idx];
-  if(!task)return;
+  var task=currentTasks[idx];if(!task)return;
   if(task.completed){showToast("Already done! ✅");return;}
   activeTaskIndex=idx;
   setText("task-screen-title",task.title);
   setText("task-xp-reward",task.xp_reward);
-  var tdb=document.getElementById("task-done-btn");
-  if(tdb)tdb.style.display="none";
+  var tdb=document.getElementById("task-done-btn");if(tdb)tdb.style.display="none";
   var tc=document.getElementById("task-content");
   if(tc)tc.innerHTML='<div class="task-loading"><div class="hana-spin">🌸</div><p>Hana is preparing your lesson...</p></div>';
   goTo("task");
-
-  var u=getUser();
-  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  var key=sGet("apikey","");
   if(!key){
-    if(tc)tc.innerHTML='<div class="grammar-block"><p>Chat with Hana in the Hana tab to get a lesson on this topic! 🌸</p></div>';
-    if(tdb)tdb.style.display="block";
-    return;
+    if(tc)tc.innerHTML='<div class="grammar-content"><div class="grammar-block"><p>Add your Gemini API key in settings to get AI-powered lessons! You can still use the Vocab flashcards. 🌸</p></div></div>';
+    if(tdb)tdb.style.display="block";return;
   }
-
+  var u=getUser();
   var prompt="";
   if(task.type==="grammar"){
     prompt="Grammar lesson for JLPT N2. Task: "+task.title+". Use these plain-text labels:\nSUMMARY: one simple line\nPATTERN: structure\nEXAMPLE 1: Japanese — English\nEXAMPLE 2: Japanese — English\nTIP: memory trick\nUnder 150 words. End warmly.";
@@ -820,13 +801,11 @@ function startTask(idx){
   }else{
     prompt="Create a warm N2 study activity for "+u.name+". Task: "+task.title+". Description: "+task.description+". Personal tone, under 150 words. End with a small exercise.";
   }
-
   callGemini(prompt,key,600).then(function(text){
     if(tc)tc.innerHTML=formatLesson(text);
     if(tdb)tdb.style.display="block";
   });
 }
-
 function formatLesson(text){
   var labels=["SUMMARY","PATTERN","EXAMPLE 1","EXAMPLE 2","TIP","WORD","EXAMPLE"];
   var lines=text.split("\n").filter(function(l){return l.trim();});
@@ -839,19 +818,13 @@ function formatLesson(text){
   });
   return html+'</div>';
 }
-
 function completeTask(){
   if(activeTaskIndex<0)return;
-  var task=currentTasks[activeTaskIndex];
-  task.completed=true;
-  var u=getUser();
-  u.totalXp+=task.xp_reward;
-  u.sessionsCompleted=(u.sessionsCompleted||0)+1;
-  var today=new Date().toDateString();
-  var yesterday=new Date(Date.now()-86400000).toDateString();
+  var task=currentTasks[activeTaskIndex];task.completed=true;
+  var u=getUser();u.totalXp+=task.xp_reward;u.sessionsCompleted=(u.sessionsCompleted||0)+1;
+  var today=new Date().toDateString();var yesterday=new Date(Date.now()-86400000).toDateString();
   if(u.lastStudyDate!==today){
-    if(u.lastStudyDate===yesterday){u.streak=(u.streak||0)+1;}
-    else{u.streak=1;}
+    if(u.lastStudyDate===yesterday){u.streak=(u.streak||0)+1;}else{u.streak=1;}
     u.lastStudyDate=today;
     var day=new Date().getDay();
     if(!u.weekActivity)u.weekActivity=[0,0,0,0,0,0,0];
@@ -866,45 +839,30 @@ function completeTask(){
     showToast("🎉 All done! 20 min social media unlocked!");
   }
   saveUser(u);
-  var msgs=[
-    {e:"🎉",h:"Wonderful!",b:"\""+task.title+"\" — done!"},
-    {e:"🌸",h:"Hana is proud!",b:"Every small step adds up!"},
-    {e:"⭐",h:"You did it!",b:"Your Japanese is getting stronger!"},
-    {e:"🌱",h:"Growing!",b:"Tiny steps every day — that's the secret."}
-  ];
+  var msgs=[{e:"🎉",h:"Wonderful!",b:'"'+task.title+'" — done!'},{e:"🌸",h:"Hana is proud!",b:"Every small step adds up!"},{e:"⭐",h:"You did it!",b:"Your Japanese is getting stronger!"},{e:"🌱",h:"Growing!",b:"Tiny steps every day — that's the secret."}];
   var m=msgs[Math.floor(Math.random()*msgs.length)];
   setText("cel-emoji",m.e);setText("cel-title",m.h);setText("cel-msg",m.b);setText("cel-xp",task.xp_reward);
-  var cv=document.getElementById("celebration");
-  if(cv)cv.style.display="flex";
+  var cv=document.getElementById("celebration");if(cv)cv.style.display="flex";
 }
-
 function closeCelebration(){
-  var cv=document.getElementById("celebration");
-  if(cv)cv.style.display="none";
-  goTo("home");
+  var cv=document.getElementById("celebration");if(cv)cv.style.display="none";goTo("home");
 }
 
 // ── VOCAB ──────────────────────────────────────────────────────────
-var vocabDeck=[], vocabIndex=0, sessionXp=0;
-
+var vocabDeck=[],vocabIndex=0,sessionXp=0;
 function startVocab(){
   vocabDeck=VOCAB.slice().sort(function(){return Math.random()-.5;}).slice(0,10);
-  vocabIndex=0;sessionXp=0;
-  renderCard();
+  vocabIndex=0;sessionXp=0;renderCard();
   var xf=document.getElementById("xp-fill");if(xf)xf.style.width="0%";
   setText("session-xp","0");
 }
-
 function renderCard(){
-  var c=vocabDeck[vocabIndex];
-  if(!c){vocabDone();return;}
-  setText("card-kanji",c.k);setText("card-reading",c.r);
-  setText("card-meaning",c.m);setText("card-example",c.e);
+  var c=vocabDeck[vocabIndex];if(!c){vocabDone();return;}
+  setText("card-kanji",c.k);setText("card-reading",c.r);setText("card-meaning",c.m);setText("card-example",c.e);
   setText("vocab-counter",(vocabIndex+1)+"/"+vocabDeck.length);
   var fc=document.getElementById("flashcard");if(fc)fc.classList.remove("flipped");
   var ca=document.getElementById("card-actions");if(ca)ca.style.display="none";
 }
-
 function flipCard(){
   var fc=document.getElementById("flashcard");if(!fc)return;
   fc.classList.toggle("flipped");
@@ -912,17 +870,14 @@ function flipCard(){
   if(fc.classList.contains("flipped")){setTimeout(function(){if(ca)ca.style.display="flex";},300);}
   else{if(ca)ca.style.display="none";}
 }
-
 function vocabResult(res){
   var xp=res==="knew"?5:2;sessionXp+=xp;
   setText("session-xp",sessionXp);
   var xf=document.getElementById("xp-fill");
   if(xf)xf.style.width=Math.min(100,(sessionXp/(vocabDeck.length*5))*100)+"%";
   if(res==="knew"){var u=getUser();u.wordsLearned=(u.wordsLearned||0)+1;saveUser(u);}
-  vocabIndex++;
-  if(vocabIndex>=vocabDeck.length)vocabDone();else renderCard();
+  vocabIndex++;if(vocabIndex>=vocabDeck.length)vocabDone();else renderCard();
 }
-
 function vocabDone(){
   var u=getUser();u.totalXp+=sessionXp;saveUser(u);
   setText("cel-emoji","🌸");setText("cel-title","Session done!");
@@ -932,10 +887,8 @@ function vocabDone(){
 
 // ── TUTOR CHAT ─────────────────────────────────────────────────────
 var chatHistory=[];
-
 function sendMessage(){
-  var input=document.getElementById("chat-input");
-  if(!input)return;
+  var input=document.getElementById("chat-input");if(!input)return;
   var msg=input.value.trim();if(!msg)return;
   input.value="";input.style.height="auto";
   appendBubble("user",msg);
@@ -943,38 +896,28 @@ function sendMessage(){
   var loadId="load-"+Date.now();
   appendBubble("hana","🌸 thinking...",loadId,true);
   var sb=document.getElementById("send-btn");if(sb)sb.disabled=true;
-
-  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  var key=sGet("apikey","");
   if(!key){
     var lb=document.getElementById(loadId);
     if(lb)lb.querySelector(".bubble-text").textContent="Please add your Gemini API key to chat with me! 🔑";
     if(sb)sb.disabled=false;return;
   }
-
   var u=getUser();
   var sys="You are Hana-sensei, a warm encouraging Japanese tutor. Student: "+(u.name||"Friend")+", Streak: "+u.streak+" days, XP: "+u.totalXp+". NEVER say 'wrong'. Always end with encouragement. Max 5 sentences. 1-2 emojis max.";
   var hist=chatHistory.slice(-6).map(function(m){return(m.r==="user"?"Student":"Hana")+": "+m.t;}).join("\n");
   var full=hist?"Conversation so far:\n"+hist+"\n\nStudent: "+msg:msg;
-
   callGemini(sys+"\n\n---\n"+full,key,500).then(function(reply){
     if(sb)sb.disabled=false;
     var lb=document.getElementById(loadId);
-    if(lb)lb.querySelector(".bubble-text").textContent=reply;
+    if(lb){lb.querySelector(".bubble-text").textContent=reply;lb.querySelector(".bubble-text").classList.remove("loading");}
     chatHistory.push({r:"user",t:msg});chatHistory.push({r:"hana",t:reply});
     if(chatHistory.length>20)chatHistory=chatHistory.slice(-20);
-    var msgs=document.getElementById("chat-messages");
-    if(msgs)msgs.scrollTop=msgs.scrollHeight;
+    var msgs=document.getElementById("chat-messages");if(msgs)msgs.scrollTop=msgs.scrollHeight;
   });
 }
-
-function quickPrompt(msg){
-  var i=document.getElementById("chat-input");if(i)i.value=msg;
-  sendMessage();
-}
-
+function quickPrompt(msg){var i=document.getElementById("chat-input");if(i)i.value=msg;sendMessage();}
 function appendBubble(role,text,id,loading){
-  var div=document.createElement("div");
-  div.className="chat-bubble "+role;
+  var div=document.createElement("div");div.className="chat-bubble "+role;
   if(id)div.id=id;
   div.innerHTML='<div class="bubble-text'+(loading?" loading":"")+'">'+text+'</div>';
   var msgs=document.getElementById("chat-messages");
@@ -983,27 +926,20 @@ function appendBubble(role,text,id,loading){
 
 // ── PROGRESS ───────────────────────────────────────────────────────
 function refreshProgress(){
-  var u=getUser();
-  var lv=getLevel(u.totalXp);
-  var idx=LEVELS.indexOf(lv);
-  var next=LEVELS[idx+1]||lv;
+  var u=getUser();var lv=getLevel(u.totalXp);
+  var idx=LEVELS.indexOf(lv);var next=LEVELS[idx+1]||lv;
   var pct=next!==lv?Math.min(100,((u.totalXp-lv.min)/(next.min-lv.min))*100):100;
   setText("prog-level-kanji",lv.k);setText("prog-level-name",lv.n);
   setText("prog-xp-text",u.totalXp+" / "+next.min+" XP to next level");
   var lf=document.getElementById("level-fill");if(lf)lf.style.width=pct+"%";
   setText("stat-streak",u.streak||0);setText("stat-words",u.wordsLearned||0);
   setText("stat-sessions",u.sessionsCompleted||0);setText("stat-xp",u.totalXp||0);
-  var ACHS=[
-    {id:"first_step",icon:"👣",title:"First Step",desc:"Completed your first task"},
-    {id:"week_warrior",icon:"🔥",title:"Week Warrior",desc:"7-day streak!"},
-    {id:"xp_100",icon:"⭐",title:"First Hundred",desc:"Earned 100 XP"}
-  ];
+  var ACHS=[{id:"first_step",icon:"👣",title:"First Step",desc:"Completed your first task"},{id:"week_warrior",icon:"🔥",title:"Week Warrior",desc:"7-day streak!"},{id:"xp_100",icon:"⭐",title:"First Hundred",desc:"Earned 100 XP"}];
   var list=document.getElementById("achievements-list");
   var earned=ACHS.filter(function(a){return(u.achievements||[]).indexOf(a.id)>-1;});
   if(list)list.innerHTML=earned.length===0?'<p style="color:var(--muted);font-size:14px;text-align:center;padding:20px">Complete tasks to earn achievements! 🏅</p>':earned.map(function(a){return'<div class="achievement-item"><span class="ach-icon">'+a.icon+'</span><div class="ach-text"><strong>'+a.title+'</strong><br><small>'+a.desc+'</small></div></div>';}).join("");
   var days=["S","M","T","W","T","F","S"];
-  var act=u.weekActivity||[0,0,0,0,0,0,0];
-  var mx=Math.max.apply(null,act.concat([1]));
+  var act=u.weekActivity||[0,0,0,0,0,0,0];var mx=Math.max.apply(null,act.concat([1]));
   var wc=document.getElementById("week-chart");
   if(wc)wc.innerHTML=days.map(function(d,i){var h=Math.round((act[i]/mx)*60);return'<div class="week-bar-wrap"><div class="week-bar'+(act[i]>0?" has-data":"")+'" style="height:'+(h||4)+'px"></div><span class="week-day">'+d+'</span></div>';}).join("");
 }
@@ -1020,19 +956,6 @@ function useUnlock(){
   var el=document.getElementById("unlock-section");if(el)el.style.display="none";
   showToast("📱 20 minutes unlocked! Enjoy your break 🌸",5000);
   setTimeout(function(){showToast("Break time over! Ready to study? 🌸",5000);},20*60*1000);
-}
-
-// ── GEMINI API CALL ────────────────────────────────────────────────
-function callGemini(prompt,key,maxTokens){
-  var url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+(key||API_KEY);
-  return fetch(url,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,maxOutputTokens:maxTokens||600}})
-  }).then(function(r){return r.json();}).then(function(d){
-    try{return d.candidates[0].content.parts[0].text;}
-    catch(e){return "Hana is taking a quick tea break — try again in a moment! 🍵";}
-  }).catch(function(){return "Hana is taking a quick tea break — try again in a moment! 🍵";});
 }
 
 // ── TOAST ──────────────────────────────────────────────────────────
@@ -1060,9 +983,7 @@ function createPetals(){
 createPetals();
 setTimeout(function(){
   var onboarded=sGet("onboarded",false);
-  var hasKey=API_KEY!=="YOUR_API_KEY_HERE"||sGet("apikey","");
-  if(onboarded&&hasKey){goTo("home");}
-  // else stay on splash
+  if(onboarded){goTo("home");}
 },800);
 </script>
 </body>
