@@ -552,7 +552,7 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 var API_KEY = "AIzaSyBgkVUBdC9TPot1QhrcHP66uoT4Czb-VX4";
 // ──────────────────────────────────────────────────────────────────
 
-var GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
+var GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=";
 
 // ── VOCAB DATA ─────────────────────────────────────────────────────
 var VOCAB = [
@@ -1024,15 +1024,20 @@ function useUnlock(){
 
 // ── GEMINI API CALL ────────────────────────────────────────────────
 function callGemini(prompt,key,maxTokens){
-  var url="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+(key||API_KEY);
+  var url="https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key="+(key||API_KEY);
   return fetch(url,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.85,maxOutputTokens:maxTokens||600}})
   }).then(function(r){return r.json();}).then(function(d){
+    console.log("Gemini raw response:", JSON.stringify(d));
+    if(d.error){
+      console.error("Gemini error:", d.error.message, "code:", d.error.code);
+      return "Error " + d.error.code + ": " + d.error.message;
+    }
     try{return d.candidates[0].content.parts[0].text;}
-    catch(e){return "Hana is taking a quick tea break — try again in a moment! 🍵";}
-  }).catch(function(){return "Hana is taking a quick tea break — try again in a moment! 🍵";});
+    catch(e){console.error("Parse error:",e,d);return "Hana is taking a quick tea break — try again in a moment! 🍵";}
+  }).catch(function(e){console.error("Fetch failed:",e);return "Fetch error: "+e.message;});
 }
 
 // ── TOAST ──────────────────────────────────────────────────────────
