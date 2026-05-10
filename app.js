@@ -788,6 +788,10 @@ function createPetals() {
 (function boot() {
   createPetals();
 
+  // Wire up the splash "Let's Begin" button
+  var splashBtn = document.getElementById("splash-btn");
+  if (splashBtn) splashBtn.addEventListener("click", function(){ App.goTo("onboarding-1"); });
+
   // Wire up the celebration close button
   var celebBtn = document.getElementById("btn-close-celebration");
   if (celebBtn) celebBtn.addEventListener("click", function(){ App.closeCelebration(); });
