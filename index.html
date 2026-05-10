@@ -549,10 +549,10 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 
 <script>
 // ── API KEY — paste yours here ─────────────────────────────────────
-var API_KEY = "AIzaSyBgkVUBdC9TPot1QhrcHP66uoT4Czb-VX4";
+var API_KEY = "";
 // ──────────────────────────────────────────────────────────────────
 
-var GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=";
+var GEMINI_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=";
 
 // ── VOCAB DATA ─────────────────────────────────────────────────────
 var VOCAB = [
@@ -658,8 +658,6 @@ function saveBlockers(){
 }
 
 function saveApiKey(){
-  var hardcoded = API_KEY !== "YOUR_API_KEY_HERE";
-  if(hardcoded){sSet("onboarded",true);goTo("checkin");return;}
   var v=document.getElementById("input-apikey").value.trim();
   if(!v.startsWith("AIza")){showToast("Paste a valid Gemini key (starts with AIza...)");return;}
   sSet("apikey",v);
@@ -693,7 +691,7 @@ function selectMood(n){
 }
 
 function generateTasks(){
-  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  var key=sGet("apikey","");
   var btn=document.getElementById("gen-btn");
   var t=document.getElementById("gen-btn-text");
   var l=document.getElementById("gen-btn-loader");
@@ -805,7 +803,7 @@ function startTask(idx){
   goTo("task");
 
   var u=getUser();
-  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  var key=sGet("apikey","");
   if(!key){
     if(tc)tc.innerHTML='<div class="grammar-block"><p>Chat with Hana in the Hana tab to get a lesson on this topic! 🌸</p></div>';
     if(tdb)tdb.style.display="block";
@@ -944,7 +942,7 @@ function sendMessage(){
   appendBubble("hana","🌸 thinking...",loadId,true);
   var sb=document.getElementById("send-btn");if(sb)sb.disabled=true;
 
-  var key=API_KEY!=="YOUR_API_KEY_HERE"?API_KEY:sGet("apikey","");
+  var key=sGet("apikey","");
   if(!key){
     var lb=document.getElementById(loadId);
     if(lb)lb.querySelector(".bubble-text").textContent="Please add your Gemini API key to chat with me! 🔑";
@@ -1024,7 +1022,7 @@ function useUnlock(){
 
 // ── GEMINI API CALL ────────────────────────────────────────────────
 function callGemini(prompt,key,maxTokens){
-  var url="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key="+(key||API_KEY);
+  var url="https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key="+key;
   return fetch(url,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -1065,7 +1063,7 @@ function createPetals(){
 createPetals();
 setTimeout(function(){
   var onboarded=sGet("onboarded",false);
-  var hasKey=API_KEY!=="YOUR_API_KEY_HERE"||sGet("apikey","");
+  var hasKey=sGet("apikey","");
   if(onboarded&&hasKey){goTo("home");}
   // else stay on splash
 },800);
