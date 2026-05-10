@@ -337,9 +337,9 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
     <div class="hana-avatar">🔑</div>
     <h2>One last thing!</h2>
     <p class="ob-subtitle">Paste your <strong>Gemini API key</strong> to activate Hana-sensei.<br><small>Stored only in your browser.</small></p>
-    <input type="password" id="input-apikey" class="text-input" placeholder="AIza..."
+    <input type="password" id="input-apikey" class="text-input" placeholder="Paste your Gemini API key here..."
       onkeydown="if(event.key==='Enter') saveApiKey()">
-    <p class="api-hint">Free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></p>
+    <p class="api-hint">Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></p>
     <button class="btn-primary" onclick="saveApiKey()">I'm ready — let's go! 🌸</button>
     <button class="btn-secondary" onclick="skipApiKey()" style="margin-top:8px">Skip for now</button>
   </div>
@@ -659,7 +659,7 @@ function saveBlockers(){
 
 function saveApiKey(){
   var v=document.getElementById("input-apikey").value.trim();
-  if(!v.startsWith("AIza")){showToast("Paste a valid Gemini key (starts with AIza...)");return;}
+  if(!v||v.length < 10){showToast("Please paste your API key first 🔑");return;}
   sSet("apikey",v);
   sSet("onboarded",true);
   goTo("checkin");
