@@ -1,93 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NihongoHeart — 心</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/@google/generative-ai@0.1.0/dist/index.umd.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NihongoHeart 心 — One step today. Fluent someday.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="screen-splash" class="screen active">
-        <div class="splash-bg"></div>
-        <div class="petals-container" id="petals"></div>
-        <div class="splash-content">
-            <div class="kanji-hero">心</div>
-            <h1 class="app-name">NihongoHeart</h1>
-            <p class="tagline">One step today. Fluent someday.</p>
-            <button id="btn-start" class="btn-primary" style="margin-top: 40px;">Begin Your Journey</button>
-        </div>
+<!-- ═══════════════════════════════════════════
+     SPLASH SCREEN
+═══════════════════════════════════════════ -->
+<div id="screen-splash" class="screen active">
+  <div class="splash-bg"></div>
+  <div class="splash-content">
+    <div class="kanji-hero">心</div>
+    <h1 class="app-name">NihongoHeart</h1>
+    <p class="tagline">One step today. Fluent someday.</p>
+    <button class="btn-primary" id="splash-btn">始めましょう — Let's Begin</button>
+  </div>
+  <div class="petals-container" id="petals"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONBOARDING 1 — Name
+═══════════════════════════════════════════ -->
+<div id="screen-onboarding-1" class="screen">
+  <div class="onboarding-wrap">
+    <div class="hana-avatar">🌸</div>
+    <h2>こんにちは！</h2>
+    <p class="ob-subtitle">I'm Hana-sensei, your personal study companion.<br>What's your name?</p>
+    <input type="text" id="input-name" class="text-input" placeholder="Your first name..." maxlength="30">
+    <button class="btn-primary" id="btn-save-name">Nice to meet you →</button>
+  </div>
+  <div class="ob-progress"><span class="ob-dot active"></span><span class="ob-dot"></span><span class="ob-dot"></span><span class="ob-dot"></span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONBOARDING 2 — Why
+═══════════════════════════════════════════ -->
+<div id="screen-onboarding-2" class="screen">
+  <div class="onboarding-wrap">
+    <div class="hana-avatar">✨</div>
+    <h2>Why do you want to pass N2?</h2>
+    <p class="ob-subtitle">There's no wrong answer. This helps me understand you.</p>
+    <div class="choice-grid" id="why-choices">
+      <button class="choice-card" data-value="work">🏢<span>Work in Japan</span></button>
+      <button class="choice-card" data-value="anime">🎌<span>Anime &amp; Manga</span></button>
+      <button class="choice-card" data-value="culture">🍵<span>Love Japanese culture</span></button>
+      <button class="choice-card" data-value="personal">⭐<span>Personal challenge</span></button>
+    </div>
+    <button class="btn-primary" id="btn-save-why">Continue →</button>
+  </div>
+  <div class="ob-progress"><span class="ob-dot done"></span><span class="ob-dot active"></span><span class="ob-dot"></span><span class="ob-dot"></span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONBOARDING 3 — Daily time
+═══════════════════════════════════════════ -->
+<div id="screen-onboarding-3" class="screen">
+  <div class="onboarding-wrap">
+    <div class="hana-avatar">⏰</div>
+    <h2>How much time can you honestly study each day?</h2>
+    <p class="ob-subtitle">No judgment. 5 minutes is genuinely enough to start. 🌱</p>
+    <div class="time-options">
+      <button class="time-card" data-minutes="5">
+        <span class="time-num">5</span>
+        <span class="time-unit">min</span>
+        <span class="time-label">Just starting</span>
+      </button>
+      <button class="time-card" data-minutes="15">
+        <span class="time-num">15</span>
+        <span class="time-unit">min</span>
+        <span class="time-label">Building habits</span>
+      </button>
+      <button class="time-card" data-minutes="30">
+        <span class="time-num">30</span>
+        <span class="time-unit">min</span>
+        <span class="time-label">Serious study</span>
+      </button>
+    </div>
+    <button class="btn-primary" id="btn-save-time">Continue →</button>
+  </div>
+  <div class="ob-progress"><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot active"></span><span class="ob-dot"></span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONBOARDING 4 — Blockers
+═══════════════════════════════════════════ -->
+<div id="screen-onboarding-4" class="screen">
+  <div class="onboarding-wrap">
+    <div class="hana-avatar">🤍</div>
+    <h2>What usually gets in the way?</h2>
+    <p class="ob-subtitle">Knowing this helps me support you better. Select all that apply.</p>
+    <div class="blocker-list" id="blocker-choices">
+      <button class="blocker-tag" data-value="phone">📱 Phone distractions</button>
+      <button class="blocker-tag" data-value="energy">😴 Low energy</button>
+      <button class="blocker-tag" data-value="lost">😵 Feeling lost</button>
+      <button class="blocker-tag" data-value="forgetting">🔔 Forgetting</button>
+      <button class="blocker-tag" data-value="embarrassed">😶 Feeling embarrassed</button>
+    </div>
+    <button class="btn-primary" id="btn-save-blockers">Continue →</button>
+  </div>
+  <div class="ob-progress"><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot done"></span><span class="ob-dot active"></span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MORNING CHECK-IN
+═══════════════════════════════════════════ -->
+<div id="screen-checkin" class="screen">
+  <div class="checkin-wrap">
+    <div class="hana-bubble">
+      <span class="hana-icon">🌸</span>
+      <p id="checkin-greeting">Good morning! How are you feeling today?</p>
+    </div>
+    <h3 class="mood-label">Your energy level:</h3>
+    <div class="mood-row" id="mood-selector">
+      <button class="mood-btn" data-mood="1">😩<span>Low</span></button>
+      <button class="mood-btn" data-mood="2">😕<span>Meh</span></button>
+      <button class="mood-btn" data-mood="3">😊<span>OK</span></button>
+      <button class="mood-btn" data-mood="4">😄<span>Good</span></button>
+      <button class="mood-btn" data-mood="5">🤩<span>Great</span></button>
+    </div>
+    <div id="commitment-section" style="display:none">
+      <h3 class="mood-label">Make a small commitment:</h3>
+      <input type="text" id="commitment-input" class="text-input" placeholder='e.g. "I will study at 8pm in my bedroom"'>
+      <button class="btn-primary" id="generate-tasks-btn">
+        <span id="gen-btn-text">Generate my tasks ✨</span>
+        <span id="gen-btn-loader" style="display:none">Hana is thinking... 🌸</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     HOME SCREEN
+═══════════════════════════════════════════ -->
+<div id="screen-home" class="screen">
+  <div class="home-header">
+    <div class="home-top">
+      <div>
+        <p class="home-greet" id="home-greeting">おはよう!</p>
+        <h2 class="home-name" id="home-name">Friend</h2>
+      </div>
+      <div class="xp-badge">
+        <span id="home-level">旅人</span>
+        <span id="home-xp">0 XP</span>
+      </div>
+    </div>
+    <div class="streak-bar">
+      <div class="streak-item">🔥 <strong id="streak-count">0</strong> day streak</div>
+      <div class="streak-item">⭐ <strong id="total-xp">0</strong> total XP</div>
+    </div>
+  </div>
+
+  <div class="tasks-section">
+    <h3 class="section-title">Today's tiny tasks</h3>
+    <div id="task-list" class="task-list">
+      <div class="task-placeholder">
+        <p>No tasks yet! Check in to get your tasks. 🌸</p>
+        <button class="btn-secondary" id="btn-goto-checkin">Morning Check-in</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="unlock-section" id="unlock-section" style="display:none">
+    <div class="unlock-card">
+      <span class="unlock-icon">📱</span>
+      <div>
+        <strong>Social Media Unlocked!</strong>
+        <p>20 minutes earned</p>
+      </div>
+      <button class="btn-unlock" id="btn-use-unlock">Use</button>
+    </div>
+  </div>
+
+  <button class="fab-tutor" id="fab-tutor-btn" title="Chat with Hana-sensei">
+    <span>🌸</span>
+    <span class="fab-label">Hana</span>
+  </button>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-screen="home">🏠<span>Home</span></button>
+    <button class="nav-btn" data-screen="checkin">☀️<span>Check-in</span></button>
+    <button class="nav-btn" data-screen="vocab">📚<span>Vocab</span></button>
+    <button class="nav-btn" data-screen="tutor">🌸<span>Hana</span></button>
+    <button class="nav-btn" data-screen="progress">📊<span>Progress</span></button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     VOCAB FLASHCARDS
+═══════════════════════════════════════════ -->
+<div id="screen-vocab" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" data-screen="home">← Back</button>
+    <h2>Vocabulary</h2>
+    <span id="vocab-counter" class="counter-badge">1/10</span>
+  </div>
+
+  <div class="flashcard-arena">
+    <div class="flashcard" id="flashcard">
+      <div class="card-front">
+        <div class="card-kanji" id="card-kanji">読む</div>
+        <div class="card-hint">Tap to reveal</div>
+      </div>
+      <div class="card-back">
+        <div class="card-reading" id="card-reading">よむ (yomu)</div>
+        <div class="card-meaning" id="card-meaning">to read</div>
+        <div class="card-example" id="card-example">本を読む — to read a book</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="card-actions" class="card-actions" style="display:none">
+    <button class="btn-forgot" id="btn-forgot">😅 Still learning</button>
+    <button class="btn-knew" id="btn-knew">✓ Got it!</button>
+  </div>
+
+  <div class="vocab-xp-bar">
+    <div class="xp-label">Session XP: <strong id="session-xp">0</strong></div>
+    <div class="xp-progress"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn" data-screen="home">🏠<span>Home</span></button>
+    <button class="nav-btn" data-screen="checkin">☀️<span>Check-in</span></button>
+    <button class="nav-btn active" data-screen="vocab">📚<span>Vocab</span></button>
+    <button class="nav-btn" data-screen="tutor">🌸<span>Hana</span></button>
+    <button class="nav-btn" data-screen="progress">📊<span>Progress</span></button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     AI TUTOR CHAT
+═══════════════════════════════════════════ -->
+<div id="screen-tutor" class="screen">
+  <div class="tutor-header">
+    <button class="back-btn" data-screen="home">← Back</button>
+    <div class="tutor-title">
+      <span class="tutor-avatar">🌸</span>
+      <div>
+        <strong>Hana-sensei</strong>
+        <small>Always here for you</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-messages" id="chat-messages">
+    <div class="chat-bubble hana">
+      <div class="bubble-text">こんにちは！ I'm so happy you're here. What would you like to study today? Ask me anything about Japanese grammar, vocabulary, or just tell me how you're feeling! 🌸</div>
+    </div>
+  </div>
+
+  <div class="quick-prompts" id="quick-prompts">
+    <button class="qp-btn" data-prompt="Explain ように grammar point for N2">Explain ように</button>
+    <button class="qp-btn" data-prompt="Give me 3 N2 vocabulary words with examples">3 N2 words</button>
+    <button class="qp-btn" data-prompt="I feel unmotivated to study today">I'm unmotivated</button>
+    <button class="qp-btn" data-prompt="Can you check my Japanese? 昨日学校に行きませんでした">Check my Japanese</button>
+  </div>
+
+  <div class="chat-input-row">
+    <textarea id="chat-input" class="chat-input" placeholder="Ask Hana anything..." rows="1"></textarea>
+    <button class="send-btn" id="send-btn">Send</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PROGRESS SCREEN
+═══════════════════════════════════════════ -->
+<div id="screen-progress" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" data-screen="home">← Back</button>
+    <h2>Your Progress</h2>
+  </div>
+
+  <div class="progress-scroll">
+    <div class="level-card">
+      <div class="level-kanji" id="prog-level-kanji">旅人</div>
+      <div class="level-info">
+        <strong id="prog-level-name">Traveler</strong>
+        <p id="prog-xp-text">0 / 100 XP to next level</p>
+        <div class="level-bar"><div class="level-fill" id="level-fill" style="width:0%"></div></div>
+      </div>
     </div>
 
-    <div id="screen-onboarding-1" class="screen">
-        <div class="onboarding-wrap">
-            <div class="hana-avatar">🌸</div>
-            <h2>"Hajimemashite! I am Hana."</h2>
-            <p class="ob-subtitle">I'll be your guide. What is your name?</p>
-            <input type="text" id="input-name" class="text-input" placeholder="Your name...">
-            <button id="btn-save-name" class="btn-primary">Next</button>
-        </div>
+    <div class="stats-grid">
+      <div class="stat-tile">
+        <span class="stat-num" id="stat-streak">0</span>
+        <span class="stat-label">Day Streak 🔥</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-num" id="stat-words">0</span>
+        <span class="stat-label">Words Learned 📖</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-num" id="stat-sessions">0</span>
+        <span class="stat-label">Sessions 🎯</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-num" id="stat-xp">0</span>
+        <span class="stat-label">Total XP ⭐</span>
+      </div>
     </div>
 
-    <div id="screen-home" class="screen">
-        <header class="home-header">
-            <div class="home-top">
-                <div>
-                    <p class="home-greet">こんにちは,</p>
-                    <h2 class="home-name" id="display-name">User</h2>
-                </div>
-                <div class="xp-badge">
-                    <span id="display-rank">旅人</span>
-                    <span id="display-xp">0 XP</span>
-                </div>
-            </div>
-            <div class="streak-bar">
-                <div class="streak-item">🔥 <strong id="display-streak">0</strong> day streak</div>
-            </div>
-        </header>
-
-        <section class="tasks-section">
-            <h3 class="section-title">Today's Path</h3>
-            <div id="task-list" class="task-list">
-                </div>
-        </section>
-
-        <div class="unlock-section" id="unlock-area" style="display:none;">
-            <div class="unlock-card">
-                <span class="unlock-icon">🔓</span>
-                <div>
-                    <strong>Focus Reward</strong>
-                    <p>Social Media Unlocked</p>
-                </div>
-                <button class="btn-unlock">Use</button>
-            </div>
-        </div>
-
-        <nav class="bottom-nav">
-            <button class="nav-btn active">🏠<span>Home</span></button>
-            <button class="nav-btn">📚<span>Vocab</span></button>
-            <button class="nav-btn">📈<span>Stats</span></button>
-        </nav>
-
-        <button class="fab-tutor" id="btn-open-tutor">
-            <span>🌸</span>
-            <span class="fab-label">TUTOR</span>
-        </button>
+    <div class="achievements-section">
+      <h3 class="section-title">Achievements</h3>
+      <div id="achievements-list" class="achievements-list"></div>
     </div>
 
-    <div id="screen-task" class="screen">
-        <header class="screen-header">
-            <button class="back-btn" onclick="App.goTo('home')">← Back</button>
-            <h2 id="task-title">Lesson</h2>
-        </header>
-        <div class="task-content" id="task-body">
-            </div>
-        <button class="btn-primary task-done-btn" onclick="App.completeTask()">I've Finished</button>
+    <div class="week-chart-section">
+      <h3 class="section-title">This week</h3>
+      <div class="week-chart" id="week-chart"></div>
     </div>
+  </div>
 
-    <div id="toast" class="toast"></div>
+  <nav class="bottom-nav">
+    <button class="nav-btn" data-screen="home">🏠<span>Home</span></button>
+    <button class="nav-btn" data-screen="checkin">☀️<span>Check-in</span></button>
+    <button class="nav-btn" data-screen="vocab">📚<span>Vocab</span></button>
+    <button class="nav-btn" data-screen="tutor">🌸<span>Hana</span></button>
+    <button class="nav-btn active" data-screen="progress">📊<span>Progress</span></button>
+  </nav>
+</div>
 
-    <script src="app.js"></script>
+<!-- ═══════════════════════════════════════════
+     TASK STUDY SCREEN
+═══════════════════════════════════════════ -->
+<div id="screen-task" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" data-screen="home">← Back</button>
+    <h2 id="task-screen-title">Study</h2>
+  </div>
+  <div class="task-content" id="task-content">
+    <div class="task-loading">
+      <div class="hana-spin">🌸</div>
+      <p>Hana is preparing your lesson...</p>
+    </div>
+  </div>
+  <button class="btn-primary task-done-btn" id="task-done-btn" style="display:none">
+    ✓ Task Complete! +<span id="task-xp-reward">20</span> XP
+  </button>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- CELEBRATION OVERLAY -->
+<div id="celebration" class="celebration-overlay" style="display:none">
+  <div class="celebration-box">
+    <div class="cel-emoji" id="cel-emoji">🎉</div>
+    <h2 id="cel-title">Wonderful!</h2>
+    <p id="cel-msg">You completed a task!</p>
+    <div class="xp-gained">+<span id="cel-xp">20</span> XP</div>
+    <button class="btn-primary" id="btn-close-celebration">Keep going! 💪</button>
+  </div>
+</div>
+
+<!-- No external SDK needed — Gemini called via plain fetch() in app.js -->
+<script src="app.js"></script>
 </body>
 </html>
