@@ -552,7 +552,7 @@ html,body{width:100%;height:100%;background:#111;font-family:var(--font-body);-w
 var API_KEY = "AIzaSyBMMmFwSs1oKEdIajTyxIg5mFFTO9KZMMw";
 // ──────────────────────────────────────────────────────────────────
 
-var GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=";
+var GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
 
 // ── VOCAB DATA ─────────────────────────────────────────────────────
 var VOCAB = [
@@ -1024,7 +1024,7 @@ function useUnlock(){
 
 // ── GEMINI API CALL ────────────────────────────────────────────────
 function callGemini(prompt,key,maxTokens){
-  var url="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+(key||API_KEY);
+  var url="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key="+(key||API_KEY);
   return fetch(url,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
